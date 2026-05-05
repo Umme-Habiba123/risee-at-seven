@@ -133,10 +133,16 @@ export default function RiseAtSeven() {
   }, []);
 
   return (
-    <div className="font-sans mx-3 my-1 rounded-2xl">
+   <div>
+    <div>
+      <p className="m-2 font-bold text-center text-sm bg-emerald-100 py-1 rounded-lg">
+        The CategoryLeaderBoard-Live Now
+      </p>
+    </div>
+     <div className="font-sans mx-3 rounded-2xl">
       {/* ─── NAVBAR ─── */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 mt-14 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? "bg-black/60 backdrop-blur-md border-b border-white/10"
             : "bg-transparent"
@@ -348,5 +354,6 @@ export default function RiseAtSeven() {
         }
       `}</style>
     </div>
+   </div>
   );
 }
