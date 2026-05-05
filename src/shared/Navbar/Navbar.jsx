@@ -1,20 +1,50 @@
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 
 const NAV_ITEMS = [
   {
     label: "Services",
-    dropdown: ["SEO", "Content Marketing", "PR & Digital", "Social Media", "LLM Search"],
+    dropdown: {
+      heading: "Core Services",
+      cols: [
+        ["Search & Growth Strategy", "Onsite SEO", "Content Experience", "B2B Marketing"],
+        ["Digital PR", "Social Media & Campaigns", "Data & Insights", "Social SEO/Search"],
+      ],
+      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80",
+      cta: "View All Services",
+    },
+  },
+  {
+    label: "Industries",
+    dropdown: {
+      heading: "Industries",
+      cols: [
+        ["eCommerce", "Finance", "Travel & Hospitality", "Technology"],
+        ["Healthcare", "Retail", "Education", "B2B"],
+      ],
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80",
+      cta: "View All Industries",
+    },
   },
   {
     label: "International",
-    dropdown: ["UK", "USA (New York)", "EU"],
+    dropdown: {
+      heading: "Our Offices",
+      cols: [["United Kingdom", "USA (New York)", "European Union"]],
+      image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&q=80",
+      cta: "Learn More",
+    },
   },
   {
     label: "About",
-    dropdown: ["Our Story", "Team", "Culture", "Awards"],
+    dropdown: {
+      heading: "About Us",
+      cols: [["Our Story", "Team", "Culture", "Awards & Recognition"]],
+      image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=80",
+      cta: "Meet the Team",
+    },
   },
   { label: "Work" },
-  { label: "Careers" },
+  { label: "Careers", badge: "25" },
   { label: "Blog" },
   { label: "Webinar" },
 ];
@@ -78,43 +108,66 @@ const PLATFORMS = [
 
 const ALL_PLATFORMS = [...PLATFORMS, ...PLATFORMS];
 
-function NavItem({ item }) {
+function MegaDropdown({ item }) {
   const [open, setOpen] = useState(false);
+  const timerRef = useRef(null);
+
+  const enter = () => { clearTimeout(timerRef.current); setOpen(true); };
+  const leave = () => { timerRef.current = setTimeout(() => setOpen(false), 120); };
 
   if (!item.dropdown) {
     return (
-      <span className="relative text-sm font-medium text-white/85 cursor-pointer group whitespace-nowrap hover:text-white transition-colors duration-200">
+      <span className="relative inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-white/85 cursor-pointer rounded-full transition-all duration-200 hover:bg-white/15 whitespace-nowrap select-none">
         {item.label}
-        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
+        {item.badge && (
+          <span className="absolute -top-1.5 -right-1 bg-teal-400 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
+            {item.badge}
+          </span>
+        )}
       </span>
     );
   }
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
-      <span className="relative text-sm font-medium text-white/85 cursor-pointer group whitespace-nowrap flex items-center gap-1 hover:text-white transition-colors duration-200">
+    <div className="relative" onMouseEnter={enter} onMouseLeave={leave}>
+      <span
+        className={`inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium cursor-pointer rounded-full border transition-all duration-200 whitespace-nowrap select-none ${
+          open ? "bg-white text-gray-900 border-white" : "text-white/85 border-transparent hover:bg-white/15"
+        }`}
+      >
         {item.label}
-        <svg className={`w-3 h-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </svg>
-        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
+        <span className="text-xs font-bold opacity-60 ml-0.5">+</span>
       </span>
 
       {open && (
-        <div className="absolute top-full left-0 mt-2 bg-white border border-gray-100 shadow-xl rounded-lg min-w-[180px] z-50 overflow-hidden animate-fadeIn">
-          {item.dropdown.map((d) => (
-            <a
-              key={d}
-              href="#"
-              className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition-colors duration-150 border-b border-gray-50 last:border-0"
-            >
-              {d}
-            </a>
-          ))}
+        <div className="absolute top-full left-0 mt-3 z-50 animate-dropIn">
+          <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden flex" style={{ minWidth: 560 }}>
+            <div className="flex-1 p-7">
+              <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-gray-400 mb-5">{item.dropdown.heading}</p>
+              <div className="flex gap-10">
+                {item.dropdown.cols.map((col, ci) => (
+                  <ul key={ci} className="flex flex-col gap-3">
+                    {col.map((d) => (
+                      <li key={d}>
+                        <a href="#" className="text-[15px] font-medium text-gray-800 hover:text-black hover:underline underline-offset-2 transition-colors duration-150">
+                          {d}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ))}
+              </div>
+              <button className="mt-7 inline-flex items-center gap-2 bg-gray-900 text-white text-xs font-bold px-4 py-2 rounded-full hover:bg-gray-700 transition-colors">
+                {item.dropdown.cta}
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              </button>
+            </div>
+            <div className="w-44 shrink-0">
+              <img src={item.dropdown.image} alt="" className="w-full h-full object-cover" style={{ minHeight: 210 }}/>
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -122,141 +175,119 @@ function NavItem({ item }) {
 }
 
 export default function RiseAtSeven() {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileOpenIdx, setMobileOpenIdx] = useState(null);
 
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handler);
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
-
   return (
-   <div>
-    <div>
-      <p className="m-2 font-bold text-center text-sm bg-emerald-100 py-1 rounded-lg">
-        The CategoryLeaderBoard-Live Now
-      </p>
-    </div>
-     <div className="font-sans mx-3 rounded-2xl">
-      {/* ─── NAVBAR ─── */}
-      <nav
-        className={`fixed top-0 left-0 mt-14 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-black/60 backdrop-blur-md border-b border-white/10"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-5 lg:px-8 h-16 flex items-center justify-between">
-          {/* Logo */}
+    <div className="font-sans rounded-2xl mx-2">
+
+      {/* ── OUTER WRAPPER: announcement bar + navbar overlap hero ── */}
+      <div className="relative">
+
+      {/* ── ANNOUNCEMENT BAR ── */}
+      <div className="relative z-50 w-full my-2 font-bold bg-teal-100 py-2 m-1 rounded-2xl text-center text-xs text-gray-800 tracking-wide">
+        🚨 The CategoryLeaderBoard - Live Now
+      </div>
+
+      {/* ── NAVBAR — transparent, floats over hero bg ── */}
+      <nav className="absolute mt-5 top-8 left-0 right-0 z-50 w-full">
+        <div className="max-w-screen-xl mx-auto px-5 lg:px-8 h-14 flex items-center justify-between gap-4">
+
+          {/* Logo — never moves */}
           <div
-            className="text-white cursor-pointer select-none"
-            style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.04em", fontSize: "1.6rem" }}
+            className="shrink-0 cursor-pointer select-none text-white"
+            style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.04em", fontSize: "1.45rem" }}
           >
             Rise at Seven
-            <sup className="text-green-400 text-xs ml-0.5" style={{ fontSize: "0.5em" }}>®</sup>
+            <sup className="text-green-400 ml-0.5" style={{ fontSize: "0.42em", verticalAlign: "super" }}>®</sup>
           </div>
 
-          {/* Desktop Nav Links */}
-          <div className="hidden lg:flex items-center gap-7">
+          {/* Desktop nav links */}
+          <div className="hidden lg:flex items-center gap-0.5 flex-1 justify-center">
             {NAV_ITEMS.map((item) => (
-              <NavItem key={item.label} item={item} />
+              <MegaDropdown key={item.label} item={item} />
             ))}
           </div>
 
-          {/* CTA + Hamburger */}
-          <div className="flex items-center gap-3">
-            <button className="hidden sm:flex items-center gap-2 bg-white text-gray-900 text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-200 hover:bg-transparent hover:text-white hover:ring-2 hover:ring-white whitespace-nowrap">
+          {/* CTA */}
+          <div className="flex items-center gap-3 shrink-0">
+            <button className="hidden sm:flex items-center gap-2 bg-white text-gray-900 text-sm font-semibold px-5 py-2 rounded-full transition-all duration-200 hover:bg-transparent hover:text-white hover:ring-2 hover:ring-white whitespace-nowrap">
               Get In Touch
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
               </svg>
             </button>
-
-            {/* Hamburger */}
-            <button
-              className="lg:hidden flex flex-col gap-1.5 p-2 cursor-pointer"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
-            >
-              <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-              <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-              <span className={`block w-4 h-0.5 bg-white transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2 w-6" : ""}`} />
+            <button className="lg:hidden flex flex-col gap-1.5 p-2 cursor-pointer" onClick={() => setMenuOpen(!menuOpen)}>
+              <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`}/>
+              <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}/>
+              <span className={`block w-4 h-0.5 bg-white transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2 w-6" : ""}`}/>
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile menu */}
         {menuOpen && (
-          <div className="lg:hidden bg-black/80 backdrop-blur-md border-t border-white/10 px-5 py-4 flex flex-col gap-1">
+          <div className="lg:hidden bg-white border-t border-gray-100 px-5 py-4 flex flex-col gap-1 shadow-xl">
             {NAV_ITEMS.map((item, i) => (
               <div key={item.label}>
-                <div
-                  className="flex items-center justify-between py-3 border-b border-white/10 cursor-pointer"
-                  onClick={() => setMobileOpenIdx(mobileOpenIdx === i ? null : i)}
-                >
-                  <span className="text-sm font-semibold text-white">{item.label}</span>
+                <div className="flex items-center justify-between py-3 border-b border-gray-50 cursor-pointer"
+                  onClick={() => setMobileOpenIdx(mobileOpenIdx === i ? null : i)}>
+                  <span className="text-sm font-semibold text-gray-800">{item.label}</span>
                   {item.dropdown && (
-                    <svg className={`w-4 h-4 text-white/60 transition-transform ${mobileOpenIdx === i ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    <svg className={`w-4 h-4 text-gray-500 transition-transform ${mobileOpenIdx === i ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
                     </svg>
                   )}
                 </div>
                 {item.dropdown && mobileOpenIdx === i && (
                   <div className="pl-4 pb-2 flex flex-col gap-1">
-                    {item.dropdown.map((d) => (
-                      <a key={d} href="#" className="text-sm text-white/60 py-1.5 hover:text-white transition-colors">{d}</a>
+                    {item.dropdown.cols.flat().map((d) => (
+                      <a key={d} href="#" className="text-sm text-gray-600 py-1.5 hover:text-black transition-colors">{d}</a>
                     ))}
                   </div>
                 )}
               </div>
             ))}
-            <button className="mt-3 w-full bg-white text-gray-900 text-sm font-semibold py-3 rounded-full hover:bg-white/80 transition-colors">
+            <button className="mt-3 w-full bg-gray-900 text-white text-sm font-semibold py-3 rounded-full hover:bg-gray-700 transition-colors">
               Get In Touch ↗
             </button>
           </div>
         )}
       </nav>
 
-      {/* ─── HERO BANNER ─── */}
-      {/* NOTE: No mt-20 wrapper, no rounded-2xl — starts from very top so navbar sits on top of image */}
-      <section
-        className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden rounded-2xl"
-        style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
+      {/* ── HERO: blurred bg, text on top ── */}
+      <div className="relative rounded-2xl p-6 overflow-hidden" style={{ minHeight: "calc(100vh - 32px - 56px)" }}>
 
-        {/* Hero Content */}
-        <div className="relative z-10 text-white text-center px-5 max-w-5xl w-full pt-16">
-          {/* Award label */}
-          <p
-            className="text-xs font-bold tracking-[0.18em] uppercase mb-3 opacity-90 animate-fadeUp"
-            style={{ animationDelay: "0.1s" }}
-          >
+        {/* Blurred background — covers entire hero */}
+        <div
+          className="absolute inset-0 z-0 "
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "blur(20px) brightness(0.68) saturate(1.35)",
+            transform: "scale(1.06)",
+          }}
+        />
+        <div className="absolute inset-0 z-0 bg-black/15" />
+
+        {/* Hero content */}
+        <div className="relative z-10 flex flex-col justify-center items-center text-center px-5 pt-20 pb-32 min-h-[calc(100vh-88px)]">
+
+          <p className="text-xs font-bold tracking-[0.18em] uppercase mb-3 text-white/90 animate-fadeUp" style={{ animationDelay: "0.1s" }}>
             #1 Most Recommended Content Marketing Agency
           </p>
 
-          {/* Award badges */}
           <div className="flex flex-wrap justify-center gap-2 mb-8 animate-fadeUp" style={{ animationDelay: "0.25s" }}>
             {["🏆 Global Search Awards", "▲ The Drum", "🌐 UK Social Media Awards", "★ Content Awards"].map((b) => (
-              <span
-                key={b}
-                className="px-3 py-1 text-[0.65rem] font-semibold tracking-widest uppercase rounded border border-white/30 bg-white/10 backdrop-blur-sm"
-              >
+              <span key={b} className="px-3 py-1 text-[0.65rem] font-semibold tracking-widest uppercase rounded border border-white/30 bg-white/10 backdrop-blur-sm text-white">
                 {b}
               </span>
             ))}
           </div>
 
-          {/* Main headline */}
           <h1
-            className="leading-none mb-4 animate-fadeUp"
+            className="leading-none mb-4 text-white animate-fadeUp"
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: "clamp(3.5rem, 10vw, 9.5rem)",
@@ -266,94 +297,69 @@ export default function RiseAtSeven() {
           >
             We Create
             <br />
-            <span className="inline-flex items-center gap-4">
+            <span className="inline-flex items-center gap-4 rounded-2xl">
               Category
               <span className="inline-block w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden align-middle shadow-2xl" style={{ position: "relative", top: "-4px" }}>
-                <img
-                  src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&q=80"
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
+                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&q=80" alt="" className="w-full h-full object-cover"/>
               </span>
               Leaders
             </span>
           </h1>
 
-          <p
-            className="text-lg md:text-2xl font-light tracking-widest mb-14 opacity-90 animate-fadeUp"
-            style={{ animationDelay: "0.55s" }}
-          >
+          <p className="text-lg md:text-2xl font-light tracking-widest mb-14 text-white/90 animate-fadeUp" style={{ animationDelay: "0.55s" }}>
             on every searchable platform
           </p>
-        </div>
 
-        {/* ─── Platform Ticker ─── */}
-        <div className="relative z-10 w-full overflow-hidden animate-fadeUp" style={{ animationDelay: "0.7s" }}>
-          <div
-            className="flex gap-10 items-center"
-            style={{
-              animation: "scrollLeft 22s linear infinite",
-              width: "max-content",
-            }}
-          >
-            {ALL_PLATFORMS.map((p, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2 text-white/70 hover:text-white transition-all duration-200 cursor-pointer whitespace-nowrap group"
-              >
-                {p.icon && <span className="opacity-80 group-hover:opacity-100">{p.icon}</span>}
-                <span className={`text-sm font-semibold tracking-wide ${p.italic ? "italic" : ""}`}>
-                  {p.name}
-                </span>
-              </div>
-            ))}
+          {/* Ticker */}
+          <div className="w-full overflow-hidden animate-fadeUp" style={{ animationDelay: "0.7s" }}>
+            <div className="flex gap-10 items-center" style={{ animation: "scrollLeft 22s linear infinite", width: "max-content" }}>
+              {ALL_PLATFORMS.map((p, i) => (
+                <div key={i} className="flex items-center gap-2 text-white/70 hover:text-white transition-all duration-200 cursor-pointer whitespace-nowrap group">
+                  {p.icon && <span className="opacity-80 group-hover:opacity-100">{p.icon}</span>}
+                  <span className={`text-sm font-semibold tracking-wide ${p.italic ? "italic" : ""}`}>{p.name}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* ─── Bottom Footer Info ─── */}
+        {/* Bottom bar */}
         <div className="absolute bottom-0 left-0 right-0 z-10 px-6 md:px-10 py-5 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3">
           <p className="text-xs md:text-sm text-white/80 max-w-sm leading-relaxed">
             Organic media planners creating, distributing & optimising{" "}
-            <strong className="text-white font-bold">search-first</strong> content for SEO,
-            Social, PR, Ai and LLM search
+            <strong className="text-white font-bold">search-first</strong> content for SEO, Social, PR, Ai and LLM search
           </p>
           <p className="text-xs md:text-sm text-white/80 text-left sm:text-right">
-            <strong className="text-white font-bold">4 Global Offices serving</strong>
-            <br />
+            <strong className="text-white font-bold">4 Global Offices serving</strong><br/>
             UK, USA (New York) & EU
           </p>
         </div>
-      </section>
+      </div>
 
-      {/* ─── Keyframes via style tag ─── */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
         @keyframes scrollLeft {
-          0% { transform: translateX(0); }
+          0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(28px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-
         .animate-fadeUp {
           opacity: 0;
           animation: fadeUp 0.75s ease forwards;
         }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-6px); }
+        @keyframes dropIn {
+          from { opacity: 0; transform: translateY(-8px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-
-        .animate-fadeIn {
-          animation: fadeIn 0.18s ease forwards;
+        .animate-dropIn {
+          animation: dropIn 0.18s ease forwards;
         }
       `}</style>
+      </div>{/* end outer relative wrapper */}
     </div>
-   </div>
   );
 }
