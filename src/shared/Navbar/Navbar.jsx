@@ -83,25 +83,25 @@ function NavItem({ item }) {
 
   if (!item.dropdown) {
     return (
-      <span className=" relative text-sm font-medium text-gray-800 cursor-pointer group whitespace-nowrap">
+      <span className="relative text-sm font-medium text-white/85 cursor-pointer group whitespace-nowrap hover:text-white transition-colors duration-200">
         {item.label}
-        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-full" />
+        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
       </span>
     );
   }
 
   return (
     <div
-      className="relative "
+      className="relative"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
-      <span className="relative text-sm font-medium text-gray-800 cursor-pointer group whitespace-nowrap flex items-center gap-1">
+      <span className="relative text-sm font-medium text-white/85 cursor-pointer group whitespace-nowrap flex items-center gap-1 hover:text-white transition-colors duration-200">
         {item.label}
         <svg className={`w-3 h-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
-        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-full"  />
+        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full" />
       </span>
 
       {open && (
@@ -133,20 +133,23 @@ export default function RiseAtSeven() {
   }, []);
 
   return (
-    <div className="font-sans">
+    <div className="font-sans mx-3 my-1 rounded-2xl">
       {/* ─── NAVBAR ─── */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-white/98 shadow-md backdrop-blur-md border-b border-gray-100"
-            : "bg-white/90 backdrop-blur-sm border-b border-gray-100/60"
+            ? "bg-black/60 backdrop-blur-md border-b border-white/10"
+            : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 lg:px-8 h-16 flex items-center justify-between">
           {/* Logo */}
-          <div className="text-xl font-black tracking-tight text-gray-900 cursor-pointer select-none" style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.04em", fontSize: "1.6rem" }}>
+          <div
+            className="text-white cursor-pointer select-none"
+            style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.04em", fontSize: "1.6rem" }}
+          >
             Rise at Seven
-            <sup className="text-green-500 text-xs ml-0.5" style={{ fontSize: "0.5em" }}>®</sup>
+            <sup className="text-green-400 text-xs ml-0.5" style={{ fontSize: "0.5em" }}>®</sup>
           </div>
 
           {/* Desktop Nav Links */}
@@ -158,7 +161,7 @@ export default function RiseAtSeven() {
 
           {/* CTA + Hamburger */}
           <div className="flex items-center gap-3">
-            <button className="hidden sm:flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-200 hover:bg-white hover:text-gray-900 hover:ring-2 hover:ring-gray-900 whitespace-nowrap">
+            <button className="hidden sm:flex items-center gap-2 bg-white text-gray-900 text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-200 hover:bg-transparent hover:text-white hover:ring-2 hover:ring-white whitespace-nowrap">
               Get In Touch
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
@@ -171,25 +174,25 @@ export default function RiseAtSeven() {
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle menu"
             >
-              <span className={`block w-6 h-0.5 bg-gray-800 transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-              <span className={`block w-6 h-0.5 bg-gray-800 transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-              <span className={`block w-4 h-0.5 bg-gray-800 transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2 w-6" : ""}`} />
+              <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
+              <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+              <span className={`block w-4 h-0.5 bg-white transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2 w-6" : ""}`} />
             </button>
           </div>
         </div>
 
         {/* Mobile Menu */}
         {menuOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-100 px-5 py-4 flex flex-col gap-1 shadow-xl">
+          <div className="lg:hidden bg-black/80 backdrop-blur-md border-t border-white/10 px-5 py-4 flex flex-col gap-1">
             {NAV_ITEMS.map((item, i) => (
               <div key={item.label}>
                 <div
-                  className="flex items-center justify-between py-3 border-b border-gray-50 cursor-pointer"
+                  className="flex items-center justify-between py-3 border-b border-white/10 cursor-pointer"
                   onClick={() => setMobileOpenIdx(mobileOpenIdx === i ? null : i)}
                 >
-                  <span className="text-sm font-semibold text-gray-800">{item.label}</span>
+                  <span className="text-sm font-semibold text-white">{item.label}</span>
                   {item.dropdown && (
-                    <svg className={`w-4 h-4 text-gray-500 transition-transform ${mobileOpenIdx === i ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <svg className={`w-4 h-4 text-white/60 transition-transform ${mobileOpenIdx === i ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
                   )}
@@ -197,13 +200,13 @@ export default function RiseAtSeven() {
                 {item.dropdown && mobileOpenIdx === i && (
                   <div className="pl-4 pb-2 flex flex-col gap-1">
                     {item.dropdown.map((d) => (
-                      <a key={d} href="#" className="text-sm text-gray-600 py-1.5 hover:text-black transition-colors">{d}</a>
+                      <a key={d} href="#" className="text-sm text-white/60 py-1.5 hover:text-white transition-colors">{d}</a>
                     ))}
                   </div>
                 )}
               </div>
             ))}
-            <button className="mt-3 w-full bg-gray-900 text-white text-sm font-semibold py-3 rounded-full hover:bg-gray-700 transition-colors">
+            <button className="mt-3 w-full bg-white text-gray-900 text-sm font-semibold py-3 rounded-full hover:bg-white/80 transition-colors">
               Get In Touch ↗
             </button>
           </div>
@@ -211,8 +214,9 @@ export default function RiseAtSeven() {
       </nav>
 
       {/* ─── HERO BANNER ─── */}
+      {/* NOTE: No mt-20 wrapper, no rounded-2xl — starts from very top so navbar sits on top of image */}
       <section
-        className="relative min-h-screen flex flex-col justify-center items-center pt-16 overflow-hidden"
+        className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden rounded-2xl"
         style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&q=80')",
           backgroundSize: "cover",
@@ -223,7 +227,7 @@ export default function RiseAtSeven() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
 
         {/* Hero Content */}
-        <div className="relative z-10 text-white text-center px-5 max-w-5xl w-full">
+        <div className="relative z-10 text-white text-center px-5 max-w-5xl w-full pt-16">
           {/* Award label */}
           <p
             className="text-xs font-bold tracking-[0.18em] uppercase mb-3 opacity-90 animate-fadeUp"
@@ -292,9 +296,7 @@ export default function RiseAtSeven() {
                 className="flex items-center gap-2 text-white/70 hover:text-white transition-all duration-200 cursor-pointer whitespace-nowrap group"
               >
                 {p.icon && <span className="opacity-80 group-hover:opacity-100">{p.icon}</span>}
-                <span
-                  className={`text-sm font-semibold tracking-wide ${p.italic ? "italic" : ""}`}
-                >
+                <span className={`text-sm font-semibold tracking-wide ${p.italic ? "italic" : ""}`}>
                   {p.name}
                 </span>
               </div>
