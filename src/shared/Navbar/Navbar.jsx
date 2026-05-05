@@ -76,7 +76,6 @@ const PLATFORMS = [
   { name: "amazon", icon: null, italic: true },
 ];
 
-// Duplicate for seamless infinite scroll
 const ALL_PLATFORMS = [...PLATFORMS, ...PLATFORMS];
 
 function NavItem({ item }) {
@@ -84,7 +83,7 @@ function NavItem({ item }) {
 
   if (!item.dropdown) {
     return (
-      <span className="relative text-sm font-medium text-gray-800 cursor-pointer group whitespace-nowrap">
+      <span className=" relative text-sm font-medium text-gray-800 cursor-pointer group whitespace-nowrap">
         {item.label}
         <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-full" />
       </span>
@@ -93,7 +92,7 @@ function NavItem({ item }) {
 
   return (
     <div
-      className="relative"
+      className="relative "
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
