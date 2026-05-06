@@ -234,10 +234,10 @@ export default function MurkUp() {
 
         {/* ── MAIN CONTENT ── */}
         <div className="w-full max-w-screen-xl mx-auto px-6 md:px-10 lg:px-10 py-16 md:py-24">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-12 lg:gap-0">
+          <div className="flex flex-col md:flex-row lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-12">
 
             {/* Left: descriptor text */}
-            <div className={`reveal reveal-d2 ${inView ? "visible" : ""} lg:w-[38%] shrink-0 `}>
+            <div className={`reveal reveal-d2 ${inView ? "visible" : ""} lg:w-[38%] flex justify-start shrink-0 `}>
               <p
                 className="text-base md:text-lg leading-snug font-medium text-gray-900 max-w-xs"
                 style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}
@@ -247,13 +247,13 @@ export default function MurkUp() {
             </div>
 
             {/* Right: big heading + CTAs */}
-            <div className={`reveal reveal-d3 ${inView ? "visible" : ""} lg:w-[62%] `}>
+            <div className={`reveal reveal-d3 ${inView ? "visible" : ""} lg:w-[62%] text-left lg:text-right `}>
 
               <h2
                 className="dd-heading leading-none text-gray-900 mb-8"
                 style={{
                   fontSize: "clamp(2.8rem, 6vw, 5.5rem)",
-                  fontWeight: 400,
+                  fontWeight: 600,
                   letterSpacing: "-0.025em",
                   lineHeight: 1.02,
                 }}
@@ -277,14 +277,14 @@ export default function MurkUp() {
               </h2>
 
               {/* CTA row */}
-              <div className={`reveal reveal-d4 ${inView ? "visible" : ""} flex flex-wrap items-center gap-3`}>
+              <div className={`reveal reveal-d4 ${inView ? "visible" : ""} flex flex-wrap justify-start lg:ml-40 gap-3`}>
                 <a href="#" className="cta-primary">
                   Our Story
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
                   </svg>
                 </a>
-                <a href="#" className="cta-ghost">
+                <a href="#" className="cta-ghost flex justify-end">
                   Our Services
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
