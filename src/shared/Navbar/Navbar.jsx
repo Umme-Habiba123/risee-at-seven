@@ -275,7 +275,7 @@ export default function RiseAtSeven() {
         <div className="relative z-10 flex flex-col justify-center items-center text-center px-5 pt-20 pb-32 min-h-[calc(100vh-88px)]">
 
           <p className="text-xs font-bold tracking-[0.18em] uppercase mb-3 text-white/90 animate-fadeUp" style={{ animationDelay: "0.1s" }}>
-            #1 Most Recommended Content Marketing Agency
+            #1Most Recommended <br></br> Content Marketing Agency
           </p>
 
           <div className="flex flex-wrap justify-center gap-2 mb-8 animate-fadeUp" style={{ animationDelay: "0.25s" }}>

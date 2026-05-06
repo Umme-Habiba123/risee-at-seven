@@ -160,10 +160,10 @@ export default function MurkUp() {
 
         {/* ── LOGO TICKER STRIP ── */}
         <div
-          className={`reveal reveal-d1 ${inView ? "visible" : ""} w-full border-b border-gray-200/70 py-5 overflow-hidden`}
+          className={`reveal reveal-d1 ${inView ? "visible" : ""} w-full mt-10  border-b border-gray-200/70 py-5 overflow-hidden`}
           style={{ background: "#f0ede8" }}
         >
-          <div className="ticker-track">
+          <div className="ticker-track text-2xl">
             {/* duplicated for seamless loop */}
             {[...Array(2)].map((_, gi) => (
               <div key={gi} className="flex items-center gap-0">
@@ -182,7 +182,7 @@ export default function MurkUp() {
                 </div>
 
                 {/* Kroger */}
-                <div className="logo-item px-8 md:px-12 shrink-0">
+                <div className="logo-item  px-8 md:px-12 shrink-0">
                   <span style={{ fontFamily: "'Instrument Serif', serif", fontSize: "1.5rem", fontStyle: "italic", fontWeight: 400, color: "#111", letterSpacing: "-0.01em" }}>Kroger</span>
                 </div>
 
@@ -233,11 +233,11 @@ export default function MurkUp() {
         </div>
 
         {/* ── MAIN CONTENT ── */}
-        <div className="w-full max-w-screen-xl mx-auto px-6 md:px-10 lg:px-16 py-16 md:py-24">
+        <div className="w-full max-w-screen-xl mx-auto px-6 md:px-10 lg:px-10 py-16 md:py-24">
           <div className="flex flex-col lg:flex-row items-start lg:items-center gap-12 lg:gap-0">
 
             {/* Left: descriptor text */}
-            <div className={`reveal reveal-d2 ${inView ? "visible" : ""} lg:w-[38%] shrink-0`}>
+            <div className={`reveal reveal-d2 ${inView ? "visible" : ""} lg:w-[38%] shrink-0 `}>
               <p
                 className="text-base md:text-lg leading-snug font-medium text-gray-900 max-w-xs"
                 style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}
@@ -247,7 +247,7 @@ export default function MurkUp() {
             </div>
 
             {/* Right: big heading + CTAs */}
-            <div className={`reveal reveal-d3 ${inView ? "visible" : ""} lg:w-[62%]`}>
+            <div className={`reveal reveal-d3 ${inView ? "visible" : ""} lg:w-[62%] `}>
 
               <h2
                 className="dd-heading leading-none text-gray-900 mb-8"
