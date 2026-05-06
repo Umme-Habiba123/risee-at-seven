@@ -185,11 +185,11 @@ export default function RiseAtSeven() {
 
       {/* ── NAVBAR — transparent, floats over hero bg ── */}
       <nav className="absolute mt-5 top-8 left-0 right-0 z-50 w-full">
-        <div className="max-w-screen-xl mx-auto px-5 lg:px-8 h-14 flex items-center justify-between gap-4">
+        <div className="w-full mx-auto px-5 lg:px-8 h-14 flex items-center justify-between gap-4">
 
           {/* Logo — never moves */}
           <div
-            className="shrink-0 cursor-pointer select-none text-white"
+            className="shrink-0 cursor-pointer sansita-font select-none text-white"
             style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.04em", fontSize: "1.45rem" }}
           >
             Rise at Seven
@@ -275,13 +275,14 @@ export default function RiseAtSeven() {
           <div className="flex flex-wrap justify-center gap-2 mb-8 animate-fadeUp" style={{ animationDelay: "0.25s" }}>
             {["🏆 Global Search Awards", "▲ The Drum", "🌐 UK Social Media Awards", "★ Content Awards"].map((b) => (
               <span key={b} className="px-3 py-1 text-[0.65rem] font-semibold tracking-widest uppercase rounded border border-white/30 bg-white/10 backdrop-blur-sm text-white">
+             
                 {b}
               </span>
             ))}
           </div>
 
           <h1
-            className="leading-none mb-4 text-white animate-fadeUp"
+            className="leading-none mb-4 text-white animate-fadeUp "
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: "clamp(3.5rem, 10vw, 9.5rem)",
