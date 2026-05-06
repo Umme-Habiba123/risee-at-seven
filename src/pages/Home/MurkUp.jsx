@@ -163,7 +163,7 @@ export default function MurkUp() {
           className={`reveal reveal-d1 ${inView ? "visible" : ""} w-full mt-10  border-b border-gray-200/70 py-5 overflow-hidden`}
           style={{ background: "#f0ede8" }}
         >
-          <div className="ticker-track text-2xl">
+          <div className="ticker-track text-4xl">
             {/* duplicated for seamless loop */}
             {[...Array(2)].map((_, gi) => (
               <div key={gi} className="flex items-center gap-0">
@@ -248,8 +248,7 @@ export default function MurkUp() {
 
             {/* Right: big heading + CTAs */}
             <div className={`reveal reveal-d3 ${inView ? "visible" : ""} lg:w-[62%] text-left lg:text-right `}>
-
-              <h2
+           <h2
                 className="dd-heading leading-none text-gray-900 mb-8"
                 style={{
                   fontSize: "clamp(2.8rem, 6vw, 5.5rem)",

@@ -435,17 +435,17 @@ export default function RiseAtSeven() {
             </div>
 
             <h1
-              className="leading-none mb-4 text-white animate-fadeUp "
+              className="leading-none mb-4 text-white animate-fadeUp lowercase"
               style={{
                 fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "clamp(3.5rem, 10vw, 9.5rem)",
-                letterSpacing: "0.01em",
+                fontSize: "clamp(2.9rem, 9vw, 8.8rem)",
+                letterSpacing: "0.03em",
                 animationDelay: "0.4s",
               }}
             >
               We Create
               <br />
-              <span className="inline-flex items-center gap-4 rounded-2xl">
+              <span className="inline-flex items-center gap-4 rounded-2xl ">
                 Category
                 <span
                   className="inline-block w-20 h-20 md:w-28 md:h-28 rounded-2xl overflow-hidden align-middle shadow-2xl"
@@ -462,8 +462,10 @@ export default function RiseAtSeven() {
             </h1>
 
             <p
-              className="text-lg md:text-2xl font-light tracking-widest mb-14 text-white/90 animate-fadeUp"
-              style={{ animationDelay: "0.55s" }}
+              className="text-lg md:text-3xl font-semibold tracking-widest mb-14 text-white/90 animate-fadeUp"
+              style={{ animationDelay: "0.55s",
+                letterSpacing: "0.01em",
+               }}
             >
               on every searchable platform
             </p>
