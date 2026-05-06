@@ -169,13 +169,13 @@ export default function MurkUp() {
               <div key={gi} className="flex items-center gap-0">
                 {/* "The agency behind..." label */}
                 <div className="logo-item flex items-center px-8 md:px-12 shrink-0">
-                  <span className="text-xs text-gray-500 font-medium tracking-wide whitespace-nowrap">The agency behind ...</span>
+                  <span className="text-lg text-black font-medium tracking-wide whitespace-nowrap">The agency behind ...</span>
                 </div>
 
                 {/* PlayStation blurred circle */}
                 <div className="logo-item px-8 md:px-12 shrink-0 flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gray-400/30 backdrop-blur-sm flex items-center justify-center">
-                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-gray-700" fill="currentColor">
+                  <div className="w-8 h-8 rounded-full text-black bg-gray-400/30 backdrop-blur-sm flex items-center justify-center">
+                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-black " fill="currentColor">
                       <path d="M8.984 2.596v17.548l3.915 1.261V6.688c0-.69.304-1.151.794-.991.636.18.76.814.76 1.501v5.575c2.896 1.047 5.06-.21 5.06-3.984 0-3.897-1.652-5.509-5.09-6.463-1.206-.338-3.237-.791-5.439-.73zM2 17.108l4.175 1.92V15.4l-4.175-1.79v3.498zm14.687-.289c-1.46.332-3.013.257-4.5-.23v3.556l4.5-1.508v-1.818zm-8.512-1.543v3.544l4.025-1.69v-3.543l-4.025 1.689z"/>
                     </svg>
                   </div>
@@ -183,19 +183,19 @@ export default function MurkUp() {
 
                 {/* Kroger */}
                 <div className="logo-item  px-8 md:px-12 shrink-0">
-                  <span style={{ fontFamily: "'Instrument Serif', serif", fontSize: "1.5rem", fontStyle: "italic", fontWeight: 400, color: "#111", letterSpacing: "-0.01em" }}>Kroger</span>
+                  <span style={{ fontFamily: "'Instrument Serif', serif", fontSize: "2.5rem", fontStyle: "italic", fontWeight: 800, color: "#000000", letterSpacing: "-0.01em" }}>Kroger</span>
                 </div>
 
                 {/* HubSpot */}
                 <div className="logo-item px-8 md:px-12 shrink-0 flex items-center gap-1">
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.35rem", fontWeight: 600, color: "#111" }}>Hub</span>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.35rem", fontWeight: 800, color: "#000000" }}>Hub</span>
                   <span className="relative inline-flex items-center">
                     <svg viewBox="0 0 14 14" className="w-3 h-3 text-orange-500 absolute -top-1 left-1" fill="currentColor">
                       <circle cx="7" cy="7" r="7"/>
                     </svg>
-                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.35rem", fontWeight: 600, color: "#111" }}>Sp</span>
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.35rem", fontWeight: 800, color: "#000000" }}>Sp</span>
                   </span>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.35rem", fontWeight: 600, color: "#111" }}>t</span>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.35rem", fontWeight: 800, color: "#000000"}}>t</span>
                 </div>
 
                 {/* Xbox */}
@@ -203,26 +203,26 @@ export default function MurkUp() {
                   <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor">
                     <path d="M4.102 3.074C5.81 1.666 7.993.8 10.37.8c1.476 0 3.12.44 4.557 1.158C13.2 3.36 11.63 5.41 10.37 7.348 9.11 5.41 7.54 3.36 5.813 1.958L4.102 3.074zm15.795 0l-1.71-1.116C16.46 3.36 14.89 5.41 13.63 7.348c-1.26-1.938-2.83-3.988-4.557-5.39C10.51 1.24 12.154.8 13.63.8c2.377 0 4.56.866 6.267 2.274zM2.55 4.5C1.307 6.124.606 8.126.606 10.262c0 3.24 1.593 6.11 4.05 7.898C6.08 16.258 7.71 13.99 8.83 11.9 6.41 9.48 4.24 6.88 2.55 4.5zm18.9 0c-1.69 2.38-3.86 4.98-6.28 7.4 1.12 2.09 2.75 4.36 4.174 6.26 2.457-1.788 4.05-4.658 4.05-7.898 0-2.136-.7-4.138-1.944-5.762zM10.37 9.078C9.04 11.22 7.16 13.62 5.37 15.6c1.418 1.56 3.13 2.53 5 2.53s3.582-.97 5-2.53c-1.79-1.98-3.67-4.38-5-6.522z"/>
                   </svg>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.15rem", fontWeight: 700, color: "#111", letterSpacing: "0.06em" }}>XBOX</span>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.15rem", fontWeight: 700, color: "#000000", letterSpacing: "0.06em" }}>XBOX</span>
                 </div>
 
                 {/* Sixt */}
                 <div className="logo-item px-8 md:px-12 shrink-0">
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.5rem", fontWeight: 800, color: "#111", letterSpacing: "-0.02em" }}>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.5rem", fontWeight: 800, color: "#000000", letterSpacing: "-0.02em" }}>
                     Si<span style={{ fontStyle: "italic" }}>X</span>T
                   </span>
                 </div>
 
                 {/* Revolution Beauty */}
                 <div className="logo-item px-8 md:px-12 shrink-0 flex flex-col items-center leading-none">
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.2em", color: "#111" }}>REVOLUTION</span>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.5rem", fontWeight: 500, letterSpacing: "0.18em", color: "#555" }}>BEAUTY LONDON</span>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", fontWeight: 800, letterSpacing: "0.2em", color: "#000000" }}>REVOLUTION</span>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.5rem", fontWeight: 800, letterSpacing: "0.18em", color: "#000000"}}>BEAUTY LONDON</span>
                 </div>
 
                 {/* PS circle again at end */}
                 <div className="logo-item px-8 md:px-12 shrink-0 flex items-center">
                   <div className="w-8 h-8 rounded-full bg-gray-300/40 flex items-center justify-center">
-                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-gray-700" fill="currentColor">
+                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-black" fill="currentColor">
                       <path d="M8.984 2.596v17.548l3.915 1.261V6.688c0-.69.304-1.151.794-.991.636.18.76.814.76 1.501v5.575c2.896 1.047 5.06-.21 5.06-3.984 0-3.897-1.652-5.509-5.09-6.463-1.206-.338-3.237-.791-5.439-.73zM2 17.108l4.175 1.92V15.4l-4.175-1.79v3.498zm14.687-.289c-1.46.332-3.013.257-4.5-.23v3.556l4.5-1.508v-1.818zm-8.512-1.543v3.544l4.025-1.69v-3.543l-4.025 1.689z"/>
                     </svg>
                   </div>
@@ -233,16 +233,16 @@ export default function MurkUp() {
         </div>
 
         {/* ── MAIN CONTENT ── */}
-        <div className="w-full max-w-screen-xl mx-auto px-6 md:px-10 lg:px-10 py-16 md:py-24">
+        <div className="w-full  mx-auto px-6 md:px-10 lg:px-10 py-16 md:py-24">
           <div className="flex flex-col md:flex-row lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-12">
 
             {/* Left: descriptor text */}
             <div className={`reveal reveal-d2 ${inView ? "visible" : ""} lg:w-[38%] flex justify-start shrink-0 `}>
               <p
-                className="text-base md:text-lg leading-snug font-medium text-gray-900 max-w-xs"
-                style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}
+                className="text-base md:text-lg lg:text-2xl leading-snug font-medium text-gray-900 "
+                style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing:'0', fontWeight: 600 }}
               >
-                A global team of search-first content marketers engineering semantic relevancy & category signals for both the internet and people
+                A global team of search-first content marketers <br /> engineering semantic relevancy & category signals for both the internet and people
               </p>
             </div>
 
@@ -276,7 +276,7 @@ export default function MurkUp() {
               </h2>
 
               {/* CTA row */}
-              <div className={`reveal reveal-d4 ${inView ? "visible" : ""} flex flex-wrap justify-start lg:ml-40 gap-3`}>
+              <div className={`reveal reveal-d4 ${inView ? "visible" : ""} flex flex-wrap justify-end lg:ml-40  gap-3`}>
                 <a href="#" className="cta-primary">
                   Our Story
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
