@@ -240,7 +240,7 @@ export default function MurkUp() {
             <div className={`reveal reveal-d2 ${inView ? "visible" : ""} lg:w-[38%] flex justify-start shrink-0 `}>
               <p
                 className="text-base md:text-lg lg:text-2xl leading-snug font-medium text-gray-900 "
-                style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing:'0', fontWeight: 600 }}
+                style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600 }}
               >
                 A global team of search-first content marketers <br /> engineering semantic relevancy & category signals for both the internet and people
               </p>
