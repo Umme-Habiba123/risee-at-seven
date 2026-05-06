@@ -1,363 +1,392 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 const WORKS = [
-  {
-    id: 0,
-    client: "SIXT",
-    years: "[2023-2025]",
-    tag: "Car Rental · SEO",
-    description: "Driving organic growth across 100+ global markets with search-first content strategy and technical SEO at scale.",
-    image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=900&q=85",
-    accent: "#ff6b00",
-  },
-  {
-    id: 1,
-    client: "Dojo - B2B",
-    years: "[2021-2025]",
-    tag: "Fintech · Content",
-    description: "Building category authority for the UK's fastest-growing payment platform through semantic content and digital PR.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=85",
-    accent: "#00c9a7",
-  },
-  {
-    id: 2,
-    client: "Magnet Trade - B2B",
-    years: "[2023-2024]",
-    tag: "Trade · SEO",
-    description: "Repositioning a heritage trade brand for digital-first discovery, capturing high-intent B2B search demand.",
-    image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=900&q=85",
-    accent: "#6c63ff",
-  },
-  {
-    id: 3,
-    client: "Leading E Sim",
-    years: "[2023-2025]",
-    tag: "Telecom · Global",
-    description: "Establishing a new challenger brand as the global category leader for eSIM travel connectivity.",
-    image: "https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=900&q=85",
-    accent: "#f7c948",
-  },
-  {
-    id: 4,
-    client: "brand globally",
-    years: "",
-    tag: "Strategy · PR",
-    description: "International brand expansion through coordinated PR, LLM search optimisation and social amplification.",
-    image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=900&q=85",
-    accent: "#ff4f79",
-    muted: true,
-  },
+  { id: 0,  client: "JD Sports",          years: "[2020-2025]", tag: "Sports · SEO",          image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=90",   searchTag: "Running Shoes" },
+  { id: 1,  client: "Parkdean Resorts",   years: "[2019-2025]", tag: "Travel · Content",      image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=900&q=90",  searchTag: "Easter Breaks" },
+  { id: 2,  client: "Pooky",              years: "[2025]",       tag: "Interiors · SEO",       image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900&q=90",   searchTag: "Rechargeable Lights" },
+  { id: 3,  client: "Revolution Beauty",  years: "[2022-2025]", tag: "Beauty · eCommerce",    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=900&q=90",  searchTag: "Vegan Makeup" },
+  { id: 4,  client: "Lloyds Pharmacy",   years: "[2022-23]",   tag: "Healthcare · SEO",      image: "https://images.unsplash.com/photo-1576671081837-49000212a370?w=900&q=90",  searchTag: "Online Pharmacy" },
+  { id: 5,  client: "PrettyLittleThing", years: "[2021-2023]", tag: "Fashion · Social",      image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=900&q=90",  searchTag: "Trending Dresses" },
+  { id: 6,  client: "SIXT",              years: "[2023-2025]", tag: "Automotive · SEO",      image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=900&q=90",    searchTag: "Car Rental" },
+  { id: 7,  client: "Dojo - B2B",        years: "[2021-2025]", tag: "Fintech · Content",     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=90",    searchTag: "Payment Terminals" },
+  { id: 8,  client: "HubSpot",           years: "[2022-2025]", tag: "SaaS · Content",        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=90",  searchTag: "CRM Software" },
+  { id: 9,  client: "Xbox",              years: "[2022-2024]", tag: "Gaming · Social",       image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=900&q=90",  searchTag: "Xbox Game Pass" },
+  { id: 10, client: "Kroger",            years: "[2023-2025]", tag: "Grocery · US SEO",      image: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=900&q=90",     searchTag: "Weekly Deals" },
+  { id: 11, client: "Bloom & Wild",      years: "[2023-2025]", tag: "eCommerce · Seasonal",  image: "https://images.unsplash.com/photo-1487530811015-780700bf91ee?w=900&q=90",  searchTag: "Flower Delivery" },
+  { id: 12, client: "Specsavers",        years: "[2021-2025]", tag: "Healthcare · Local",    image: "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=900&q=90",  searchTag: "Eye Test Near Me" },
+  { id: 13, client: "Shawbrook Bank",    years: "[2023-2025]", tag: "Finance · Content",     image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&q=90",  searchTag: "Business Loans" },
+  { id: 14, client: "Deichmann",         years: "[2022-2024]", tag: "Fashion · Europe",      image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=900&q=90",  searchTag: "Shoes Online" },
 ];
 
+const SCROLL_PER_ITEM = 280; // px of scroll per work item
+const TOTAL_SCROLL    = SCROLL_PER_ITEM * WORKS.length;
+
+// font-size scale per distance from active (rem values)
+const SIZE_BY_DIST = {
+  0:  { sz: "clamp(2.8rem,5.5vw,6.2rem)", fw: 800, op: 1,    col: "#ffffff" },
+  1:  { sz: "clamp(2.2rem,4.4vw,5.0rem)", fw: 700, op: 0.40, col: "#ffffff" },
+  2:  { sz: "clamp(1.9rem,3.8vw,4.2rem)", fw: 700, op: 0.22, col: "#ffffff" },
+  3:  { sz: "clamp(1.6rem,3.2vw,3.6rem)", fw: 700, op: 0.13, col: "#ffffff" },
+  4:  { sz: "clamp(1.4rem,2.8vw,3.0rem)", fw: 700, op: 0.07, col: "#ffffff" },
+  "-1":{ sz: "clamp(2.2rem,4.4vw,5.0rem)", fw: 700, op: 0.35, col: "#ffffff" },
+  "-2":{ sz: "clamp(1.9rem,3.8vw,4.2rem)", fw: 700, op: 0.15, col: "#ffffff" },
+  "-3":{ sz: "clamp(1.6rem,3.2vw,3.6rem)", fw: 700, op: 0.08, col: "#ffffff" },
+};
+const DEFAULT_STYLE = { sz: "clamp(1.3rem,2.5vw,2.6rem)", fw: 700, op: 0.04, col: "#ffffff" };
+
 export default function FeaturedWork() {
-  const containerRef = useRef(null);
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0); // 0–1 within section
-  const itemRefs = useRef([]);
+  const wrapRef   = useRef(null);
+  const listRef   = useRef(null);
+  const itemRefs  = useRef([]);
+
+  const [activeIdx,   setActiveIdx]   = useState(0);
+  const [itemProgress,setItemProgress]= useState(0);
+  const [globalProg,  setGlobalProg]  = useState(0);
+  const rafRef = useRef(null);
+
+  /* ── scroll handler ── */
+  const onScroll = useCallback(() => {
+    if (rafRef.current) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      if (!wrapRef.current) return;
+      const scrolled = -wrapRef.current.getBoundingClientRect().top;
+
+      if (scrolled <= 0) { setActiveIdx(0); setItemProgress(0); setGlobalProg(0); return; }
+      if (scrolled >= TOTAL_SCROLL) {
+        setActiveIdx(WORKS.length - 1); setItemProgress(1); setGlobalProg(1); return;
+      }
+      const gp     = scrolled / TOTAL_SCROLL;
+      const idx    = Math.min(Math.floor(scrolled / SCROLL_PER_ITEM), WORKS.length - 1);
+      const within = (scrolled % SCROLL_PER_ITEM) / SCROLL_PER_ITEM;
+      setGlobalProg(gp);
+      setActiveIdx(idx);
+      setItemProgress(within);
+    });
+  }, []);
 
   useEffect(() => {
-    const onScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const windowH = window.innerHeight;
-
-      // overall section progress 0→1
-      const total = rect.height - windowH;
-      const prog = Math.max(0, Math.min(1, -rect.top / total));
-      setScrollProgress(prog);
-
-      // which item is active based on left-side text panels
-      itemRefs.current.forEach((el, i) => {
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        const mid = windowH * 0.45;
-        if (r.top <= mid && r.bottom > mid) setActiveIdx(i);
-      });
-    };
-
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [onScroll]);
 
-  // right column images translate based on scroll progress
-  // Each image stacks; translateY shifts them all together to create "scrolling" feel
-  const imgTranslate = scrollProgress * -(WORKS.length - 1) * 100;
+  /* ── keep active item centred in left list ── */
+  useEffect(() => {
+    const list = listRef.current;
+    const el   = itemRefs.current[activeIdx];
+    if (!list || !el) return;
+    // smooth-scroll the list container so active item stays ~45% from top
+    const listH    = list.clientHeight;
+    const itemTop  = el.offsetTop;
+    const itemH    = el.clientHeight;
+    const target   = itemTop - listH * 0.45 + itemH / 2;
+    list.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
+  }, [activeIdx]);
+
+  /* image strip translateY — continuous, driven by itemProgress too */
+  // each slot = 50vh - 3px gap contribution, strip shifts by that per item
+  // We compute purely in CSS calc inside inline style
+  const imgY = `calc(${-(activeIdx + itemProgress)} * (50% + 3px))`;
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700;9..40,800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800;9..40,900&display=swap');
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .fw-root { font-family: 'DM Sans', sans-serif; background: #0d0d0d; color: #fff; }
+        /* ─ root ─ */
+        .fw-root { font-family:'DM Sans',sans-serif; background:#111; color:#fff; width:100%; }
 
-        /* Left text items */
-        .fw-item-text {
-          opacity: 0.22;
-          transform: translateY(6px);
-          transition: opacity 0.5s ease, transform 0.5s ease, color 0.4s ease;
-          cursor: default;
-        }
-        .fw-item-text.active {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .fw-item-text.prev {
-          opacity: 0.14;
-        }
-
-        /* Right image stack */
-        .fw-img-stack {
-          position: sticky;
-          top: 0;
-          height: 100vh;
+        /* ─ sticky viewport ─ */
+        .fw-sticky {
+          position: sticky; top: 0;
+          height: 100vh; width: 100%;
           overflow: hidden;
-          border-radius: 18px;
+          display: flex; flex-direction: column;
         }
-        .fw-img-inner {
+
+        /* ─ header ─ */
+        .fw-hdr {
+          position: absolute; top:0; left:0; right:0; z-index:30;
+          padding: clamp(18px,2.5vw,30px) clamp(20px,4vw,52px) 0;
+          background: linear-gradient(to bottom, rgba(17,17,17,.97) 0%, transparent 100%);
+          pointer-events: none;
+        }
+        .fw-hdr-lbl {
+          font-size:.7rem; font-weight:600;
+          letter-spacing:.14em; text-transform:uppercase;
+          color:rgba(255,255,255,.36);
+        }
+
+        /* ─ two-col body ─ */
+        .fw-body {
+          display: flex; height:100%;
+          gap: clamp(14px,2vw,30px);
+          padding: clamp(56px,7vh,80px) clamp(20px,4vw,52px) clamp(16px,2.5vw,32px);
+        }
+
+        /* ─ LEFT ─ */
+        .fw-left {
+          flex: 0 0 54%;
+          display: flex; flex-direction: column;
+          overflow: hidden;
+        }
+
+        /* scrollable text list — JS drives scrollTop */
+        .fw-list {
+          flex: 1;
+          overflow: hidden;           /* JS scrolls it, no scrollbar */
           display: flex;
           flex-direction: column;
-          height: 100%;
-          transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1);
-          will-change: transform;
-        }
-        .fw-img-slide {
-          flex-shrink: 0;
-          width: 100%;
-          height: 100vh;
-          overflow: hidden;
-          border-radius: 18px;
-          position: relative;
-        }
-        .fw-img-slide img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          transition: transform 0.8s ease;
-        }
-        .fw-img-slide:hover img {
-          transform: scale(1.03);
+          justify-content: flex-end;
+          scroll-behavior: smooth;
         }
 
-        /* image overlay tag */
-        .fw-img-tag {
-          position: absolute;
-          bottom: 20px;
-          right: 20px;
-          background: rgba(255,255,255,0.12);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(255,255,255,0.15);
-          border-radius: 999px;
-          padding: 5px 14px;
-          font-size: 0.72rem;
-          font-weight: 500;
-          color: #fff;
+        /* each row */
+        .fw-row {
           display: flex;
-          align-items: center;
-          gap: 6px;
-          white-space: nowrap;
-        }
-        .fw-img-tag svg { width: 12px; height: 12px; }
-
-        /* accent dot */
-        .accent-dot {
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          margin-right: 6px;
-          vertical-align: middle;
+          align-items: baseline;
+          padding: clamp(1px,.25vh,4px) 0;
           flex-shrink: 0;
-        }
-
-        /* year badge */
-        .year-badge {
-          display: inline-block;
-          font-size: 0.65rem;
-          font-weight: 500;
-          color: #888;
-          letter-spacing: 0.04em;
-          margin-left: 10px;
-          vertical-align: middle;
           position: relative;
-          top: -4px;
+          cursor: default;
         }
 
-        /* mobile: normal scroll stack */
-        @media (max-width: 1023px) {
-          .fw-img-stack { position: relative; height: auto; }
-          .fw-img-inner { flex-direction: column; transform: none !important; }
-          .fw-img-slide { height: 60vw; min-height: 240px; max-height: 420px; margin-bottom: 1rem; }
-          .fw-item-text { opacity: 1 !important; transform: none !important; }
+        /* client name — size/opacity set inline via JS */
+        .fw-name {
+          letter-spacing: -0.03em;
+          line-height: 1.0;
+          white-space: nowrap;
+          transition:
+            font-size  0.55s cubic-bezier(0.4,0,0.2,1),
+            opacity    0.55s cubic-bezier(0.4,0,0.2,1),
+            font-weight 0.4s ease;
+          will-change: font-size, opacity;
         }
 
-        /* subtle noise */
-        .fw-noise {
-          position: fixed;
-          inset: 0;
-          pointer-events: none;
-          z-index: 0;
-          opacity: 0.025;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        /* year tag — only on active */
+        .fw-yr {
+          font-size: clamp(.5rem,.85vw,.68rem);
+          font-weight: 400;
+          color: rgba(255,255,255,.35);
+          margin-left: clamp(6px,.8vw,12px);
+          white-space: nowrap;
+          flex-shrink: 0;
+          align-self: flex-start;
+          padding-top: clamp(6px,1vw,12px);
+          transition: opacity 0.45s ease;
         }
 
-        .fw-view-all {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          border: 1.5px solid rgba(255,255,255,0.25);
-          border-radius: 999px;
-          padding: 0.6rem 1.4rem;
-          font-size: 0.82rem;
-          font-weight: 500;
-          color: #fff;
-          cursor: pointer;
-          text-decoration: none;
-          transition: background 0.2s, border-color 0.2s, gap 0.2s;
-          background: transparent;
+        /* active highlight bar — left edge */
+        .fw-active-bar {
+          position: absolute;
+          left: -14px; top: 8px; bottom: 8px;
+          width: 3px;
+          border-radius: 3px;
+          background: #fff;
+          transition: opacity 0.4s ease, transform 0.4s ease;
         }
-        .fw-view-all:hover {
-          background: rgba(255,255,255,0.08);
-          border-color: rgba(255,255,255,0.5);
-          gap: 14px;
+
+        /* CTA */
+        .fw-cta-wrap { padding-top: clamp(10px,1.5vh,20px); flex-shrink:0; }
+        .fw-cta {
+          display: inline-flex; align-items: center; gap:8px;
+          border: 1.5px solid rgba(255,255,255,.2);
+          border-radius: 999px; padding: .6rem 1.5rem;
+          font-size:.82rem; font-weight:600; color:#fff;
+          text-decoration:none; background:rgba(255,255,255,.04);
+          transition: background .22s, gap .22s, border-color .22s;
+          font-family:'DM Sans',sans-serif;
+        }
+        .fw-cta:hover { background:rgba(255,255,255,.09); border-color:rgba(255,255,255,.4); gap:14px; }
+
+        /* ─ RIGHT image strip ─ */
+        .fw-right {
+          flex:1; position:relative;
+          overflow:hidden; border-radius:16px;
+          min-height:0; min-width:0;
+        }
+
+        .fw-strip {
+          position: absolute;
+          left:0; right:0; top:0;
+          display: flex; flex-direction: column;
+          gap: 6px;
+          will-change: transform;
+          /* NO CSS transition — driven frame-by-frame by itemProgress for smoothness */
+          transition: transform 0.68s cubic-bezier(0.76,0,0.24,1);
+        }
+
+        .fw-frame {
+          flex-shrink:0; position:relative;
+          overflow:hidden; border-radius:14px;
+          /* each frame = exactly half the container height */
+          height: calc(50% - 3px);
+        }
+
+        /* make strip total height = n * frame-height + (n-1)*gap */
+        /* We set height via CSS below using aspect; handled by inline style */
+
+        .fw-frame img {
+          width:100%; height:100%; object-fit:cover; display:block;
+          transition: transform 1s cubic-bezier(0.25,0.46,0.45,0.94);
+          will-change:transform;
+        }
+        .fw-frame:hover img { transform: scale(1.06); }
+
+        .fw-pill {
+          position:absolute; bottom:14px; right:14px;
+          background:rgba(12,12,12,.55);
+          backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+          border:1px solid rgba(255,255,255,.1);
+          border-radius:999px; padding:5px 13px;
+          font-size:.68rem; font-weight:500;
+          color:rgba(255,255,255,.9);
+          display:flex; align-items:center; gap:6px;
+          white-space:nowrap; z-index:5;
+        }
+
+        .fw-grad {
+          position:absolute; inset:0;
+          background:linear-gradient(to top,rgba(0,0,0,.3) 0%,transparent 55%);
+          pointer-events:none;
+        }
+
+        /* progress bar */
+        .fw-prog { position:absolute; bottom:0; left:0; right:0; height:2px; background:rgba(255,255,255,.05); z-index:20; }
+        .fw-prog-fill { height:100%; background:rgba(255,255,255,.38); transition:width .1s linear; }
+
+        /* ── MOBILE ── */
+        @media (max-width:900px) {
+          .fw-sticky { height:auto; position:relative; overflow:visible; }
+          .fw-body { flex-direction:column; padding-top:52px; padding-bottom:24px; gap:20px; }
+          .fw-left { flex:none; overflow:visible; }
+          .fw-list { overflow:visible; flex:none; justify-content:flex-start; }
+          .fw-name { font-size: clamp(1.6rem,6vw,2.8rem) !important; opacity:1 !important; font-weight:700 !important; white-space:normal; }
+          .fw-yr { opacity:.5 !important; }
+          .fw-active-bar { display:none; }
+          .fw-right { height:72vw; min-height:220px; }
+          .fw-frame { height:calc(50% - 3px); }
         }
       `}</style>
 
-      <div className="fw-noise" />
+      {/* ── outer: total scroll height ── */}
+      <div
+        ref={wrapRef}
+        className="fw-root"
+        style={{ height: `calc(100vh + ${TOTAL_SCROLL}px)` }}
+      >
+        <div className="fw-sticky">
 
-      <section ref={containerRef} className="fw-root relative w-full">
+          {/* Header */}
+          <div className="fw-hdr"><span className="fw-hdr-lbl">Featured Work</span></div>
 
-        {/* ── HEADER ── */}
-        <div className="sticky top-0 z-20 w-full px-6 md:px-10 lg:px-14 pt-10 pb-6 pointer-events-none"
-          style={{ background: "linear-gradient(to bottom, #0d0d0d 70%, transparent)" }}>
-          <span className="text-sm font-medium text-white/60 tracking-wide">Featured Work</span>
-        </div>
+          <div className="fw-body">
 
-        {/* ── MAIN GRID ── */}
-        <div className="w-full max-w-screen-xl mx-auto px-6 md:px-10 lg:px-14 pb-32">
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+            {/* ══ LEFT ══ */}
+            <div className="fw-left">
+              <div className="fw-list" ref={listRef}>
+                {WORKS.map((w, i) => {
+                  const dist     = i - activeIdx;
+                  const key      = String(Math.max(-3, Math.min(4, dist)));
+                  const s        = SIZE_BY_DIST[key] ?? DEFAULT_STYLE;
+                  const isActive = dist === 0;
+                  return (
+                    <div
+                      key={w.id}
+                      className="fw-row"
+                      ref={el => (itemRefs.current[i] = el)}
+                    >
+                      {/* left white bar on active */}
+                      {isActive && <div className="fw-active-bar" />}
 
-            {/* ── LEFT: scrollable text list ── */}
-            <div className="lg:w-[52%] flex flex-col">
-              {/* spacer so first item starts mid-screen */}
-              <div className="hidden lg:block" style={{ height: "30vh" }} />
-
-              {WORKS.map((w, i) => (
-                <div
-                  key={w.id}
-                  ref={(el) => (itemRefs.current[i] = el)}
-                  className={`fw-item-text ${activeIdx === i ? "active" : activeIdx > i ? "prev" : ""}`}
-                  style={{ marginBottom: i < WORKS.length - 1 ? "clamp(2rem, 5vw, 4rem)" : "0" }}
-                >
-                  <div className="flex items-start gap-0">
-                    <span
-                      className="accent-dot mt-4 hidden lg:inline-block"
-                      style={{ background: w.accent, opacity: activeIdx === i ? 1 : 0, transition: "opacity 0.4s" }}
-                    />
-                    <div>
-                      <h2
+                      <span
+                        className="fw-name"
                         style={{
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: w.muted
-                            ? "clamp(2.8rem, 6vw, 6rem)"
-                            : "clamp(2.8rem, 6vw, 6rem)",
-                          fontWeight: w.muted ? 700 : 700,
-                          letterSpacing: "-0.025em",
-                          lineHeight: 1.0,
-                          color: w.muted ? "rgba(255,255,255,0.22)" : "#fff",
-                          margin: 0,
+                          fontSize:   s.sz,
+                          fontWeight: s.fw,
+                          opacity:    s.op,
+                          color:      s.col,
                         }}
                       >
                         {w.client}
-                        {w.years && (
-                          <span className="year-badge">{w.years}</span>
-                        )}
-                      </h2>
-
-                      {/* description — only visible when active */}
-                      <p
-                        style={{
-                          fontSize: "0.875rem",
-                          color: "rgba(255,255,255,0.5)",
-                          maxWidth: "420px",
-                          marginTop: "0.5rem",
-                          lineHeight: 1.6,
-                          overflow: "hidden",
-                          maxHeight: activeIdx === i ? "80px" : "0px",
-                          opacity: activeIdx === i ? 1 : 0,
-                          transition: "max-height 0.4s ease, opacity 0.4s ease",
-                        }}
+                      </span>
+                      <span
+                        className="fw-yr"
+                        style={{ opacity: isActive ? 1 : 0 }}
                       >
-                        {w.description}
-                      </p>
+                        {w.years}
+                      </span>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  );
+                })}
+              </div>
 
-              {/* spacer at bottom */}
-              <div className="hidden lg:block" style={{ height: "50vh" }} />
-
-              {/* View all CTA */}
-              <div className="mt-12">
-                <a href="#" className="fw-view-all">
-                  View all work
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">
+              <div className="fw-cta-wrap">
+                <a href="#" className="fw-cta">
+                  Explore Our Work
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="13" height="13">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
                   </svg>
                 </a>
               </div>
             </div>
 
-            {/* ── RIGHT: sticky image column ── */}
-            <div className="lg:w-[48%]">
-              {/* Mobile: stacked images */}
-              <div className="flex flex-col gap-4 lg:hidden">
-                {WORKS.map((w) => (
-                  <div key={w.id} className="fw-img-slide relative rounded-2xl overflow-hidden" style={{ height: "60vw", minHeight: 220 }}>
-                    <img src={w.image} alt={w.client} />
-                    <div className="fw-img-tag">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            {/* ══ RIGHT ══ */}
+            <div className="fw-right">
+              <div
+                className="fw-strip"
+                style={{
+                  /* height of strip = n frames * 50% + (n-1)*6px */
+                  /* we express translateY as fraction of the container (fw-right) height */
+                  transform: `translateY(calc(${-(activeIdx + itemProgress)} * (50% + 3px)))`,
+                  /* strip needs to be tall enough: n * (50% + 3px) - 3px */
+                  height: `calc(${WORKS.length} * (50% + 3px) - 3px)`,
+                }}
+              >
+                {WORKS.map((w, i) => (
+                  <div
+                    key={w.id}
+                    className="fw-frame"
+                    style={{
+                      /* each frame = exactly one slot */
+                      height: "calc(50% - 3px)",
+                      /* override to match strip's reference frame */
+                      flexBasis: "auto",
+                      flexShrink: 0,
+                      /* actual height in terms of strip's own height */
+                    }}
+                  >
+                    <img
+                      src={w.image}
+                      alt={w.client}
+                      loading={i < 4 ? "eager" : "lazy"}
+                    />
+                    <div className="fw-grad" />
+                    <div className="fw-pill">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="10" height="10">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
                       </svg>
-                      {w.tag}
+                      {w.searchTag}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="10" height="10">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                      </svg>
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-2xl" />
                   </div>
                 ))}
               </div>
 
-              {/* Desktop: sticky scrolling stack */}
-              <div className="fw-img-stack hidden lg:block">
-                <div
-                  className="fw-img-inner"
-                  style={{ transform: `translateY(${imgTranslate}vh)` }}
-                >
-                  {WORKS.map((w) => (
-                    <div key={w.id} className="fw-img-slide">
-                      <img src={w.image} alt={w.client} />
-                      <div className="absolute inset-0 rounded-[18px]"
-                        style={{ background: "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 50%)" }} />
-                      <div className="fw-img-tag">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-                        </svg>
-                        {w.tag}
-                        <span
-                          className="w-1.5 h-1.5 rounded-full"
-                          style={{ background: w.accent, display: "inline-block" }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              {/* progress bar */}
+              <div className="fw-prog">
+                <div className="fw-prog-fill" style={{ width: `${Math.round(globalProg * 100)}%` }} />
               </div>
             </div>
 
           </div>
         </div>
-      </section>
+      </div>
     </>
   );
 }

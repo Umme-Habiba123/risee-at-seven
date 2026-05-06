@@ -234,37 +234,37 @@ export default function MurkUp() {
 
         {/* ── MAIN CONTENT ── */}
         <div className="w-full  mx-auto px-6 md:px-10 lg:px-10 py-16 md:py-24">
-          <div className="flex flex-col md:flex-row lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-12">
+          <div className="flex flex-col md:flex-row  lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-12">
 
             {/* Left: descriptor text */}
             <div className={`reveal reveal-d2 ${inView ? "visible" : ""} lg:w-[38%] flex justify-start shrink-0 `}>
               <p
-                className="text-base md:text-lg lg:text-2xl leading-snug font-medium text-gray-900 "
-                style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600 }}
+                className="text-base md:text-lg lg:text-2xl md:mt-20 leading-snug font-medium text-gray-900 "
+                style={{ fontFamily: "'DM Sans', sans-serif",   letterSpacing: "-0.095em", fontWeight: 600 }}
               >
-                A global team of search-first content marketers <br /> engineering semantic relevancy & category signals for both the internet and people
+                A global team of search-first content marketers <br /> engineering semantic relevancy & category <br /> signals for both the internet and people
               </p>
             </div>
 
             {/* Right: big heading + CTAs */}
-            <div className={`reveal reveal-d3 ${inView ? "visible" : ""} lg:w-[62%] text-left lg:text-right `}>
+            <div className={`reveal reveal-d3 ${inView ? "visible" : ""} lg:w-[62%] text-left text-2 lg:text-right `}>
            <h2
-                className="dd-heading leading-none text-gray-900 mb-8"
+                className="dd-heading leading-none text-gray-900 lg:mr-44 mb-8"
                 style={{
-                  fontSize: "clamp(2.8rem, 6vw, 5.5rem)",
+                  fontSize: "clamp(4.1rem, 6vw, 6.1rem)",
                   fontWeight: 600,
-                  letterSpacing: "-0.025em",
+                  letterSpacing: "-0.005em",
                   lineHeight: 1.02,
                 }}
               >
                 Driving Demand &amp;&nbsp;
                 <br className="hidden sm:block" />
-                <span className="inline-flex items-end gap-3 flex-wrap">
-                  Discovery
+                <span className="inline-flex items-start justify-start lg:mr-56 gap-3 flex-wrap">
+                   Discovery
                   {/* inline photo */}
                   <span
                     className="inline-photo inline-block align-bottom rounded-xl overflow-hidden shadow-lg cursor-pointer shrink-0"
-                    style={{ width: "clamp(56px, 6vw, 80px)", height: "clamp(56px, 6vw, 80px)", position: "relative", top: "-4px" }}
+                    style={{ width: "clamp(56px, 6vw, 80px)", height: "clamp(56px, 6vw, 80px)", position: "relative", bottom: "-20px" }}
                   >
                     <img
                       src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=160&q=80"
@@ -276,14 +276,14 @@ export default function MurkUp() {
               </h2>
 
               {/* CTA row */}
-              <div className={`reveal reveal-d4 ${inView ? "visible" : ""} flex flex-wrap justify-end lg:ml-40  gap-3`}>
-                <a href="#" className="cta-primary">
+              <div className={`reveal reveal-d4 ${inView ? "visible" : ""} flex flex-wrap justify-start lg:ml-72 md:mr-10   gap-3`}>
+                <a href="#" className="cta-primary font-semibold">
                   Our Story
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
                   </svg>
                 </a>
-                <a href="#" className="cta-ghost flex justify-end">
+                <a href="#" className="cta-ghost flex justify-end font-semibold">
                   Our Services
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
