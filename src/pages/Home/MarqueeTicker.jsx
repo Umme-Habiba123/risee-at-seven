@@ -76,7 +76,7 @@ export default function MarqueeTicker() {
         {/* Left fade mask */}
         <div className="marquee-mask-left absolute left-0 top-0 bottom-0 w-16 sm:w-24 md:w-36 bg-[#edeae5] z-10 pointer-events-none" />
         {/* Right fade mask */}
-        <div className="marquee-mask-right absolute right-0 top-0 bottom-0 w-16 sm:w-24 md:w-36 bg-[#edeae5] z-10 pointer-events-none" />
+        <div className="marquee-mask-right absolute  right-0 top-0 bottom-0 w-16 sm:w-24 md:w-36 bg-[#edeae5] z-10 pointer-events-none" />
 
         {/* Track */}
         <div
@@ -91,7 +91,7 @@ export default function MarqueeTicker() {
                   key={i}
                   className="marquee-font whitespace-nowrap font-semibold text-neutral-900 leading-none select-none"
                   style={{
-                    fontSize: "clamp(2.4rem, 5.5vw, 6.8rem)",
+                   fontSize: "clamp(3.9rem, 10.9vw, 10.9rem)",
                     letterSpacing: "-0.06em",
                     padding: "0 clamp(8px, 2.1vw, 40px)",
                   }}

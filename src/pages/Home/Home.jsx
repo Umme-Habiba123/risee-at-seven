@@ -1,3 +1,4 @@
+import LegacyCards from "../LegacyCards";
 import FeaturedWork from "./FeaturedWork";
 import MarqueeTicker from "./MarqueeTicker";
 import MurkUp from "./MurkUp";
@@ -10,6 +11,7 @@ const home = () => {
       <FeaturedWork></FeaturedWork>
       <OurServices></OurServices>
       <MarqueeTicker></MarqueeTicker>
+      <LegacyCards></LegacyCards>
     </div>
   );
 };
