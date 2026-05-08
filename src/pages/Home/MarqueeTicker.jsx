@@ -58,7 +58,7 @@ export default function MarqueeTicker() {
           display: flex;
           align-items: center;
           width: max-content;
-          animation: marqueeRoll 40s linear infinite;
+          animation: marqueeRoll 200s linear infinite;
           will-change: transform;
         }
         .marquee-track.paused { animation-play-state: paused; }
@@ -66,7 +66,7 @@ export default function MarqueeTicker() {
           0%   { transform: translateX(0); }
           100% { transform: translateX(calc(-100% / 3)); }
         }
-        .marquee-font { font-family: 'Syne', sans-serif; }
+        .marquee-font { font-size: 20px}
         .marquee-mask-left  { mask-image: linear-gradient(to right,  black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to right,  black 0%, transparent 100%); }
         .marquee-mask-right { mask-image: linear-gradient(to left, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%); }
       `}</style>
