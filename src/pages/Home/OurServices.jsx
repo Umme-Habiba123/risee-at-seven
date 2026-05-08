@@ -144,13 +144,13 @@ export default function OurServices() {
         }}
       >
         {/* ── HEADER ── */}
-        <div className="flex items-start justify-between gap-4 flex-wrap mb-2 sm:mb-4 pb-6 sm:pb-8">
+        <div className="flex items-start justify-between gap-4 flex-wrap sm:mt-10 mb-2 sm:mb-4 pb-6 sm:pb-8">
           {/* Title */}
           <h2
             className="flex items-center flex-wrap gap-2 sm:gap-3 md:gap-4 font-semibold tracking-tight leading-none text-neutral-900"
             style={{
-              fontFamily: "'Syne', sans-serif",
-              fontSize: "clamp(2.2rem, 7vw, 6rem)",
+              
+              fontSize: "clamp(4.9rem, 7.9vw, 6.5rem)",
               letterSpacing: "-0.03em",
             }}
           >
@@ -198,7 +198,7 @@ export default function OurServices() {
 
         {/* ── SERVICE GRID ── */}
         <div
-          className="grid grid-cols-1 lg:grid-cols-2"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
           style={{ gap: "0 clamp(1.5rem, 4vw, 4rem)" }}
         >
           {/* LEFT */}
