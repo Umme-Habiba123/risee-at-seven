@@ -100,10 +100,10 @@ function BlogCard({ post, index }) {
         onMouseMove={handleMouseMove}
       >
         {/* Image container */}
-        <div className="relative overflow-hidden rounded-2xl aspect-[15/17] w-full">
+        <div className="relative overflow-hidden rounded-2xl aspect-[15/15] w-full">
           {/* category badge */}
           {post.category && (
-            <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm text-neutral-800 text-xs font-semibold px-3 py-1 rounded-full">
+            <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm text-neutral-800 text-xs font-semibold px-2 py-1 rounded-full">
               {post.category}
             </div>
           )}
@@ -158,9 +158,9 @@ function BlogCard({ post, index }) {
 
         {/* Title */}
         <h3
-          className="text-xl sm:text-2xl font-bold leading-tight text-neutral-900 group-hover:text-neutral-700 transition-colors duration-200"
+          className="text-xl sm:text-2xl lg:text-3xl leading-tight text-neutral-900 group-hover:text-neutral-700 font-medium transition-colors duration-200"
           style={{
-            fontFamily: "'Syne', sans-serif",
+            
             letterSpacing: "-0.02em",
           }}
         >
@@ -181,19 +181,19 @@ export default function WhatsNew() {
       `}</style>
 
       <section
-        className="w-full bg-[#eae7e2] px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 pt-12 md:pt-16 lg:pt-20 pb-16 md:pb-20 lg:pb-28"
+        className="w-full bg-[#eae7e2] px-4 sm:px-6 md:px-10 lg:px-8  pt-12 md:pt-16 lg:pt-12 pb-16 md:pb-20 lg:pb-28"
         style={{  }}
       >
 
         {/* ── HEADER ── */}
-        <div className="flex items-center justify-between gap-6 pb-8 md:pb-10 border-b border-black/10 mb-10 md:mb-6">
+        <div className="flex items-center justify-between gap-6 pb-8 md:pb-6 border-b border-black/20 mb-10 md:mb-6">
 
           {/* Title */}
           <h2
-            className="flex items-center flex-wrap gap-3 font-semibold text-neutral-900 leading-none"
+            className="flex items-center lg:mt-2 flex-wrap gap-3 font-semibold text-neutral-900 leading-none"
             style={{
             
-              fontSize: "clamp(3.6rem, 6vw, 6.9rem)",
+              fontSize: "clamp(3.0rem, 6vw, 6.0rem)",
               letterSpacing: "-0.04em",
             }}
           >
