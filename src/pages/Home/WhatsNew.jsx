@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 
 const POSTS = [
   {
@@ -57,11 +57,10 @@ const POSTS = [
   },
 ];
 
-// Custom teal arrow cursor component that follows mouse on hovered card
 function ArrowCursor({ visible, x, y }) {
   return (
     <div
-      className="fixed pointer-events-none z-50 flex items-center justify-center rounded-full transition-opacity duration-200"
+      className="fixed pointer-events-none z-50 flex items-center justify-center rounded-full"
       style={{
         width: 64,
         height: 64,
@@ -75,82 +74,79 @@ function ArrowCursor({ visible, x, y }) {
       }}
     >
       <svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" strokeWidth="2.5" className="w-6 h-6">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
       </svg>
     </div>
   );
 }
 
-function BlogCard({ post, index }) {
+function BlogCard({ post, isMobile }) {
   const [hovered, setHovered] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e) => {
-    setCursorPos({ x: e.clientX, y: e.clientY });
-  };
-
   return (
     <>
-      {hovered && <ArrowCursor visible={hovered} x={cursorPos.x} y={cursorPos.y} />}
+      {hovered && !isMobile && (
+        <ArrowCursor visible={hovered} x={cursorPos.x} y={cursorPos.y} />
+      )}
       <a
         href="#"
-        className="group flex flex-col gap-4 cursor-none"
+        className="group flex flex-col gap-3 flex-shrink-0"
+        style={{
+          // Mobile: fixed card width for horizontal scroll
+          // Desktop: auto (grid handles it)
+          width: isMobile ? "76vw" : "100%",
+          maxWidth: isMobile ? "300px" : "none",
+          cursor: isMobile ? "pointer" : "none",
+        }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        onMouseMove={handleMouseMove}
+        onMouseMove={(e) => setCursorPos({ x: e.clientX, y: e.clientY })}
       >
-        {/* Image container */}
-        <div className="relative overflow-hidden rounded-2xl aspect-[15/15] w-full">
-          {/* category badge */}
+        {/* Image */}
+        <div className="relative overflow-hidden rounded-2xl w-full" style={{ aspectRatio: "1 / 1" }}>
           {post.category && (
-            <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm text-neutral-800 text-xs font-semibold px-2 py-1 rounded-full">
+            <div className="absolute top-3 left-3 z-10 bg-white/90 backdrop-blur-sm text-neutral-800 text-xs font-semibold px-2 py-1 rounded-full">
               {post.category}
             </div>
           )}
-
-          {/* main image */}
           <img
             src={post.image}
             alt={post.title}
             className="w-full h-full object-cover transition-all duration-700 ease-out"
             style={{
-              filter: hovered
+              filter: hovered && !isMobile
                 ? "blur(10px) brightness(0.75) saturate(0.8)"
                 : "blur(0px) brightness(1) saturate(1)",
-              transform: hovered ? "scale(1.04)" : "scale(1)",
+              transform: hovered && !isMobile ? "scale(1.04)" : "scale(1)",
             }}
           />
-
-          {/* teal arrow overlay — only on hover */}
-          <div
-            className="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
-            style={{ opacity: hovered ? 1 : 0 }}
-          >
-          </div>
         </div>
 
-        {/* Meta row */}
-        <div className="flex items-center gap-3 ">
-         <div className="bg-white flex px-2 p-1 rounded-3xl ">
-             <img
-            src={post.authorAvatar}
-            alt={post.author}
-            className="w-4 h-4 items-center  rounded-full object-cover"
-          />
-          <span className="text-sm text-neutral-500 bg-white px-2 rounded-2xl font-semibold" style={{ fontFamily: "'DM Sans', sans-serif",
-                 letterSpacing: "-0.06em"
-           }}>
-            {post.author}
-          </span>
-         </div>
-          <div className="flex bg-white  px-2 rounded-3xl items-center gap-1 text-neutral-400">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-3.5 h-3.5">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12 6 12 12 16 14"/>
+        {/* Meta */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="bg-white flex items-center px-2 py-1 rounded-3xl gap-1">
+            <img
+              src={post.authorAvatar}
+              alt={post.author}
+              className="w-4 h-4 rounded-full object-cover"
+            />
+            <span
+              className="text-xs text-neutral-600 font-semibold"
+              style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: "-0.04em" }}
+            >
+              {post.author}
+            </span>
+          </div>
+          <div className="flex bg-white px-2 py-1 rounded-3xl items-center gap-1 text-neutral-400">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-3 h-3">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
             </svg>
-            <span className="text-sm text-gray-500 font-semibold" style={{ fontFamily: "'DM Sans', sans-serif",
-                letterSpacing: "-0.05em"
-             }}>
+            <span
+              className="text-xs text-gray-500 font-semibold"
+              style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: "-0.04em" }}
+            >
               {post.readTime}
             </span>
           </div>
@@ -158,9 +154,9 @@ function BlogCard({ post, index }) {
 
         {/* Title */}
         <h3
-          className="text-xl sm:text-2xl lg:text-3xl leading-tight text-neutral-900 group-hover:text-neutral-700 font-medium transition-colors duration-200"
+          className="text-neutral-900 group-hover:text-neutral-600 font-medium transition-colors duration-200 leading-tight"
           style={{
-            
+            fontSize: isMobile ? "clamp(1rem, 4vw, 1.2rem)" : "clamp(1.1rem, 1.8vw, 1.5rem)",
             letterSpacing: "-0.02em",
           }}
         >
@@ -172,39 +168,48 @@ function BlogCard({ post, index }) {
 }
 
 export default function WhatsNew() {
-  const displayedPosts = POSTS.slice(0, 3);
+  const scrollRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const el = scrollRef.current;
+    const cardW = el.scrollWidth / POSTS.length;
+    const idx = Math.round(el.scrollLeft / cardW);
+    setActiveIndex(idx);
+  };
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
+        .scroll-hide::-webkit-scrollbar { display: none; }
+        .scroll-hide { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
       <section
-        className="w-full bg-[#eae7e2] px-4 sm:px-6 md:px-10 lg:px-8  pt-12 md:pt-16 lg:pt-12 pb-16 md:pb-20 lg:pb-28"
-        style={{  }}
+        className="w-full bg-[#eae7e2] pt-10 pb-16 md:pb-24"
+        style={{ overflow: "hidden" }}
       >
-
-        {/* ── HEADER ── */}
-        <div className="flex items-center justify-between gap-6 pb-8 md:pb-6 border-b border-black/20 mb-10 md:mb-6">
-
-          {/* Title */}
+        {/* HEADER */}
+        <div
+          className="flex items-center justify-between gap-4 border-b border-black/20 mb-8 md:mb-10"
+          style={{ padding: "0 clamp(1rem, 5vw, 5rem) clamp(1.25rem, 3vw, 2rem)" }}
+        >
           <h2
-            className="flex items-center lg:mt-2 flex-wrap gap-3 font-semibold text-neutral-900 leading-none"
+            className="flex items-center flex-wrap gap-2 font-semibold text-neutral-900 leading-none"
             style={{
-            
-              fontSize: "clamp(3.0rem, 6vw, 6.0rem)",
+              fontSize: "clamp(2.2rem, 6vw, 6rem)",
               letterSpacing: "-0.04em",
             }}
           >
             What's
-            {/* inline thumbnail */}
             <span
               className="inline-block overflow-hidden flex-shrink-0"
               style={{
-                width:  "clamp(59px, 6vw, 99px)",
-                height: "clamp(54px, 6vw, 96px)",
-                borderRadius: "clamp(10px, 1.5vw, 16px)",
+                width: "clamp(48px, 6vw, 99px)",
+                height: "clamp(44px, 5.5vw, 96px)",
+                borderRadius: "clamp(8px, 1.5vw, 16px)",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.14)",
                 position: "relative",
                 top: 3,
@@ -219,27 +224,75 @@ export default function WhatsNew() {
             New
           </h2>
 
-          {/* CTA */}
           <a
             href="#"
-            className="btn btn-sm sm:btn-md rounded-full bg-white border border-black/10 text-neutral-900 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 font-semibold shadow-sm flex-shrink-0 gap-1.5 transition-all duration-200 normal-case"
-            style={{  }}
+            className="flex-shrink-0 flex items-center gap-1.5 rounded-full bg-white border border-black/10 text-neutral-900 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 font-semibold shadow-sm transition-all duration-200"
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "clamp(0.7rem, 1.4vw, 0.875rem)",
+              padding: "clamp(0.4rem, 1vw, 0.6rem) clamp(0.9rem, 2vw, 1.25rem)",
+              whiteSpace: "nowrap",
+            }}
           >
             <span className="hidden sm:inline">Explore More Thoughts</span>
             <span className="sm:hidden">Explore</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3 h-3">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
             </svg>
           </a>
         </div>
 
-        {/* ── GRID ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-6 lg:gap-4">
-          {displayedPosts.map((post, i) => (
-            <BlogCard key={post.id} post={post} index={i} />
-          ))}
+        {/* ── MOBILE: horizontal scroll carousel ── */}
+        <div className="block lg:hidden">
+          <div
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className="scroll-hide flex gap-4 overflow-x-auto"
+            style={{
+              padding: "0 clamp(1rem, 5vw, 2rem)",
+              paddingRight: "clamp(1rem, 5vw, 2rem)",
+              scrollSnapType: "x mandatory",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
+            {POSTS.map((post) => (
+              <div key={post.id} style={{ scrollSnapAlign: "start" }}>
+                <BlogCard post={post} isMobile={true} />
+              </div>
+            ))}
+          </div>
+
+          {/* Scroll progress bar */}
+          <div
+            className="flex gap-1.5 mt-5 justify-center"
+            style={{ padding: "0 clamp(1rem, 5vw, 2rem)" }}
+          >
+            {POSTS.map((_, i) => (
+              <div
+                key={i}
+                className="rounded-full transition-all duration-300"
+                style={{
+                  height: 4,
+                  width: i === activeIndex ? 28 : 8,
+                  background: i === activeIndex ? "#0a0a0a" : "rgba(0,0,0,0.18)",
+                }}
+              />
+            ))}
+          </div>
         </div>
 
+        {/* ── DESKTOP: 3-column grid ── */}
+        <div
+          className="hidden lg:grid grid-cols-3"
+          style={{
+            gap: "clamp(1rem, 2vw, 2rem)",
+            padding: "0 clamp(1rem, 5vw, 5rem)",
+          }}
+        >
+          {POSTS.slice(0, 3).map((post) => (
+            <BlogCard key={post.id} post={post} isMobile={false} />
+          ))}
+        </div>
       </section>
     </>
   );
