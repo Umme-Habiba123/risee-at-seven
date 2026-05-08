@@ -144,7 +144,7 @@ export default function OurServices() {
 
           {/* Title with inline image */}
           <h2
-            className="flex items-center flex-wrap gap-3 md:gap-4 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-none text-neutral-900"
+            className="flex items-center flex-wrap gap-3 md:gap-4 text-5xl sm:text-6xl md:text-6xl lg:text-8xl font-semibold tracking-tight leading-none text-neutral-900"
             style={{ fontFamily: "'Syne'" }}
           >
             Our
