@@ -16,11 +16,7 @@ const LEFT_SERVICES = [
     label: "Data & Insights",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=95",
   },
-  {
-    id: 3,
-    label: "B2B Marketing",
-    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=95",
-  },
+
 ];
 
 const RIGHT_SERVICES = [
@@ -39,11 +35,7 @@ const RIGHT_SERVICES = [
     label: "Onsite SEO",
     image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=600&q=95",
   },
-  {
-    id: 7,
-    label: "LLM Search",
-    image: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=95",
-  },
+  
 ];
 
 function ServiceRow({ service }) {
@@ -51,27 +43,30 @@ function ServiceRow({ service }) {
 
   return (
     <div
-      className="relative border-t border-black/10 last:border-b last:border-black/10 overflow-hidden cursor-pointer group"
+      className="relative border-t border-black/10  overflow-hidden cursor-pointer group"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       {/* Default label */}
       <span
-        className="block py-5 md:py-6 lg:py-7 text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tight text-neutral-900 leading-none transition-opacity duration-300 select-none"
-        style={{ fontFamily: "'Syne', sans-serif", opacity: hovered ? 0 : 1 }}
+        className="block py-5 md:py-6 lg:py-7 text-2xl md:text-3xl lg:text-5xl  font-semibold tracking-tight text-neutral-900 leading-none transition-opacity duration-300 select-none "
+        style={{ fontFamily: "",
+              letterSpacing: "-0.06em",
+            opacity: hovered ? 0 : 1 }}
       >
         {service.label}
       </span>
 
       {/* Hover pill — slides in from left */}
       <div
-        className="absolute inset-y-2 inset-x-0 rounded-full flex items-center overflow-hidden"
+        className="absolute inset-y-3 inset-x-0 rounded-full flex items-center overflow-hidden text-semibold"
         style={{
           background: "rgba(18,18,18,0.92)",
           backdropFilter: "blur(6px)",
           transform: hovered ? "scaleX(1)" : "scaleX(0)",
           transformOrigin: "left center",
           transition: "transform 0.42s cubic-bezier(0.76,0,0.24,1)",
+           
         }}
       >
         {/* Arrow */}
@@ -81,6 +76,7 @@ function ServiceRow({ service }) {
             opacity: hovered ? 1 : 0,
             transform: hovered ? "translateX(0)" : "translateX(-10px)",
             transition: "opacity 0.28s 0.16s ease, transform 0.28s 0.16s ease",
+             
           }}
         >
           ↗
@@ -88,12 +84,13 @@ function ServiceRow({ service }) {
 
         {/* Label */}
         <span
-          className="text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tight leading-none flex-1 whitespace-nowrap select-none"
+          className="text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold tracking-tight leading-none flex-1 whitespace-nowrap select-none"
           style={{
-            fontFamily: "'Syne', sans-serif",
+            fontFamily: "",
             opacity: hovered ? 1 : 0,
             transform: hovered ? "translateX(0)" : "translateX(-8px)",
             transition: "opacity 0.28s 0.1s ease, transform 0.28s 0.1s ease",
+             
           }}
         >
           {service.label}
@@ -106,6 +103,7 @@ function ServiceRow({ service }) {
             width: "clamp(100px, 18vw, 220px)",
             opacity: hovered ? 1 : 0,
             transition: "opacity 0.35s 0.08s ease",
+            
           }}
         >
           {/* gradient fade on left edge */}
@@ -119,7 +117,7 @@ function ServiceRow({ service }) {
             src={service.image}
             alt={service.label}
             className="w-full h-full object-cover"
-            style={{ filter: "brightness(1.08) contrast(1.05) saturate(1.1)" }}
+            style={{ filter: "brightness(1.08) contrast(1.05) saturate(1.1)", }}
           />
         </div>
       </div>
@@ -135,12 +133,14 @@ export default function OurServices() {
       `}</style>
 
       <section
-        className="w-full min-h-screen bg-[#eeebe6] px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 py-12 md:py-16 lg:py-20"
-        style={{ fontFamily: "'DM Sans', sans-serif" }}
+        className="w-full  bg-[#eeebe6] px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 py-12 md:py-16 lg:py-20"
+        style={{ fontFamily: "" ,
+            
+        }}
       >
 
         {/* ── HEADER ── */}
-        <div className="flex items-start justify-between gap-6 pb-8 md:pb-10 border-b border-black/10 mb-8 md:mb-10">
+        <div className="flex items-start justify-between gap-6 pb-8 md:pb-10  mb-8 md:mb-0 lg:mb-0">
 
           {/* Title with inline image */}
           <h2
