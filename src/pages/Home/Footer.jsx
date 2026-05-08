@@ -66,7 +66,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="w-full bg-[#111111] text-white"
+      className="w-full bg-[#111111] text-white rounded-2xl m-2 "
       style={{ fontFamily: "'Arial Black', 'Helvetica Neue', sans-serif" }}
     >
       {/* Top section */}

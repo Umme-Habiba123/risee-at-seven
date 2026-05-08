@@ -136,16 +136,25 @@ const CARDS = [
 const SCROLL_PER_CARD = 700;
 const TOTAL_SCROLL    = SCROLL_PER_CARD * CARDS.length;
 
-// smooth cubic ease-in-out
 const easeInOut = (t) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
-// smooth ease-out
-const easeOut = (t) => 1 - Math.pow(1-t,3);
+const easeOut   = (t) => 1 - Math.pow(1-t,3);
 
 export default function LegacyCards() {
-  const wrapRef  = useRef(null);
-  const rafRef   = useRef(null);
+  const wrapRef = useRef(null);
+  const rafRef  = useRef(null);
   const [activeIdx,    setActiveIdx]    = useState(0);
   const [cardProgress, setCardProgress] = useState(0);
+  const [vw, setVw] = useState(typeof window !== "undefined" ? window.innerWidth : 375);
+
+  // track viewport width for responsive tweaks
+  useEffect(() => {
+    const onResize = () => setVw(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const isMobile = vw < 640;
+  const isTablet = vw >= 640 && vw < 1024;
 
   const onScroll = useCallback(() => {
     if (rafRef.current) return;
@@ -171,25 +180,30 @@ export default function LegacyCards() {
   const cur  = CARDS[activeIdx];
   const next = CARDS[Math.min(activeIdx + 1, CARDS.length - 1)];
 
-  // Exit phase: 0.5 → 1.0
-  const rawExit = Math.max(0, Math.min(1, (cardProgress - 0.50) / 0.50));
-  const tExit   = easeInOut(rawExit);
-
-  // Entry phase for back card: 0.25 → 1.0
+  const rawExit  = Math.max(0, Math.min(1, (cardProgress - 0.50) / 0.50));
+  const tExit    = easeInOut(rawExit);
   const rawEntry = Math.max(0, Math.min(1, (cardProgress - 0.25) / 0.75));
   const tEntry   = easeOut(rawEntry);
 
-  // ── front card transforms ──
-  const curY      = tExit * -160;
-  const curScale  = 1 - tExit * 0.09;
-  const curOp     = Math.max(0, 1 - tExit * 1.5);
-  const curRot    = cur.tilt - tExit * cur.tilt * 0.6;
+  // Reduce tilt on mobile so cards don't clip
+  const tiltScale = isMobile ? 0.4 : isTablet ? 0.7 : 1;
 
-  // ── back card transforms ──
+  const curY     = tExit * (isMobile ? -110 : -160);
+  const curScale = 1 - tExit * 0.09;
+  const curOp    = Math.max(0, 1 - tExit * 1.5);
+  const curRot   = (cur.tilt - tExit * cur.tilt * 0.6) * tiltScale;
+
   const backScale = 0.84 + tEntry * 0.16;
-  const backOp    = 0.4 + tEntry * 0.6;
-  const backY     = 32 - tEntry * 32;
-  const backRot   = next.backTilt * (1 - tEntry * 0.2);
+  const backOp    = 0.4  + tEntry * 0.6;
+  const backY     = (isMobile ? 22 : 32) - tEntry * (isMobile ? 22 : 32);
+  const backRot   = next.backTilt * (1 - tEntry * 0.2) * tiltScale;
+
+  // Responsive card dimensions
+  const cardW = isMobile ? "min(340px, 90vw)" : isTablet ? "min(460px, 88vw)" : "min(550px, 92vw)";
+  const cardH = isMobile ? "min(480px, 82vh)" : isTablet ? "min(520px, 84vh)" : "min(550px, 86vh)";
+
+  // Responsive photo size
+  const photoSize = isMobile ? "clamp(110px, 38vw, 150px)" : "clamp(150px, 32%, 200px)";
 
   return (
     <>
@@ -204,17 +218,18 @@ export default function LegacyCards() {
         className="w-full"
         style={{ height: `calc(100vh + ${TOTAL_SCROLL}px)`, background: "#eae7e2" }}
       >
-        {/* sticky viewport */}
         <div
           className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-visible"
-          style={{ background: "#eae7e2",
-            
-           }}
+          style={{ background: "#eae7e2" }}
         >
-
           {/* eyebrow */}
-          <p className="lc-dm text-xs sm:text-sm lg:text-xl text-black tracking-[0.2em] font-medium mb-7 sm:mb-10 select-none"
-          style={{ letterSpacing: "-0.06em",}}
+          <p
+            className="lc-dm text-black font-medium select-none"
+            style={{
+              fontSize: "clamp(0.65rem, 2vw, 1.1rem)",
+              letterSpacing: "-0.04em",
+              marginBottom: "clamp(1.5rem, 4vh, 2.5rem)",
+            }}
           >
             Legacy In The Making
           </p>
@@ -222,17 +237,13 @@ export default function LegacyCards() {
           {/* card stack */}
           <div
             className="relative flex items-center justify-center"
-            style={{
-              width:  "min(550px, 92vw)",
-              height: "min(550px, 86vh)",
-            }}
+            style={{ width: cardW, height: cardH }}
           >
-
-            {/* ── BACK CARD ── */}
+            {/* BACK CARD */}
             <div
               className="absolute inset-0"
               style={{
-                borderRadius: "clamp(25px, 4vw, 50px)",
+                borderRadius: "clamp(20px, 4vw, 50px)",
                 background:   next.backBg,
                 transform:    `translateY(${backY}px) rotate(${backRot}deg) scale(${backScale})`,
                 opacity:      backOp,
@@ -241,42 +252,43 @@ export default function LegacyCards() {
               }}
             />
 
-            {/* ── FRONT CARD ── */}
+            {/* FRONT CARD */}
             <div
               className="absolute inset-0 flex flex-col items-center text-center overflow-hidden"
               style={{
-                borderRadius: "clamp(25px, 4vw, 20px)",
-                background:   cur.cardBg,
-                transform:    `translateY(${curY}px) rotate(${curRot}deg) scale(${curScale})`,
-                opacity:      Math.max(0, curOp),
-                willChange:   "transform, opacity",
-                boxShadow:    "0 48px 120px rgba(0,0,0,0.32), 0 12px 36px rgba(0,0,0,0.16), 0 2px 8px rgba(0,0,0,0.1)",
-                paddingTop:   "clamp(40px, 6vh, 60px)",
-                paddingLeft:  "clamp(28px, 7%, 52px)",
-                paddingRight: "clamp(28px, 7%, 52px)",
-                paddingBottom:"clamp(28px, 4vh, 44px)",
-                transition:   "background 0.5s ease",
+                borderRadius:  "clamp(20px, 4vw, 50px)",
+                background:    cur.cardBg,
+                transform:     `translateY(${curY}px) rotate(${curRot}deg) scale(${curScale})`,
+                opacity:       Math.max(0, curOp),
+                willChange:    "transform, opacity",
+                boxShadow:     "0 48px 120px rgba(0,0,0,0.32), 0 12px 36px rgba(0,0,0,0.16), 0 2px 8px rgba(0,0,0,0.1)",
+                paddingTop:    "clamp(36px, 6vh, 60px)",
+                paddingLeft:   "clamp(20px, 6%, 52px)",
+                paddingRight:  "clamp(20px, 6%, 52px)",
+                paddingBottom: "clamp(20px, 4vh, 44px)",
+                transition:    "background 0.5s ease",
               }}
             >
-              {/* notch pill at top */}
+              {/* notch pill */}
               <div
                 className="absolute top-0 left-1/2 -translate-x-1/2"
                 style={{
-                  width:        52,
-                  height:       26,
+                  width:        isMobile ? 40 : 52,
+                  height:       isMobile ? 20 : 26,
                   borderRadius: "0 0 26px 26px",
                   background:   cur.notch,
                 }}
               />
 
-              {/* photo — circle crop */}
+              {/* photo */}
               <div
-                className="overflow-hidden flex-shrink-0 mb-5 sm:mb-7"
+                className="overflow-hidden flex-shrink-0"
                 style={{
-                  width:     "clamp(150px, 32%, 200px)",
-                  height:    "clamp(150px, 32%, 200px)",
-                  borderRadius: "clamp(20px, 4vw, 28px)",
-                  boxShadow: "0 10px 40px rgba(0,0,0,0.35)",
+                  width:        photoSize,
+                  height:       photoSize,
+                  borderRadius: "clamp(16px, 3.5vw, 28px)",
+                  boxShadow:    "0 10px 40px rgba(0,0,0,0.35)",
+                  marginBottom: "clamp(1rem, 3vh, 1.75rem)",
                 }}
               >
                 <img
@@ -289,11 +301,12 @@ export default function LegacyCards() {
 
               {/* heading */}
               <h2
-                className="lc-syne font-semibold leading-[0.92] mb-4 sm:mb-5 whitespace-pre-line"
+                className="lc-syne font-semibold leading-[0.92] whitespace-pre-line"
                 style={{
-                  fontSize:      "clamp(3rem, 8.5vw, 5rem)",
+                  fontSize:      "clamp(2rem, 7.5vw, 5rem)",
                   letterSpacing: "-0.045em",
                   color:         cur.textColor,
+                  marginBottom:  "clamp(0.75rem, 2.5vh, 1.25rem)",
                 }}
               >
                 {cur.heading}
@@ -303,23 +316,32 @@ export default function LegacyCards() {
               <p
                 className="lc-dm leading-relaxed"
                 style={{
-                  fontSize:  "clamp(0.8rem, 1.5vw, 0.95rem)",
-                  color:     cur.subColor,
-                  maxWidth:  "360px",
+                  fontSize: "clamp(0.72rem, 1.8vw, 0.95rem)",
+                  color:    cur.subColor,
+                  maxWidth: "360px",
                 }}
               >
                 {cur.body}
               </p>
 
               {/* dots */}
-              <div className="flex items-center gap-2 mt-auto pt-5">
+              <div
+                className="flex items-center mt-auto"
+                style={{
+                  gap:        "clamp(4px, 1vw, 8px)",
+                  paddingTop: "clamp(0.75rem, 2vh, 1.25rem)",
+                  flexWrap:   "wrap",
+                  justifyContent: "center",
+                  maxWidth:   "100%",
+                }}
+              >
                 {CARDS.map((_, i) => (
                   <div
                     key={i}
-                    className="rounded-full transition-all duration-50 ease-out"
+                    className="rounded-full transition-all duration-50 ease-out flex-shrink-0"
                     style={{
-                      width:      i === activeIdx ? 24 : 7,
-                      height:     7,
+                      width:      i === activeIdx ? (isMobile ? 18 : 24) : (isMobile ? 5 : 7),
+                      height:     isMobile ? 5 : 7,
                       background: i === activeIdx
                         ? cur.notch
                         : (cur.textColor === "#ffffff"
@@ -334,15 +356,24 @@ export default function LegacyCards() {
 
           {/* scroll hint */}
           <div
-            className="absolute bottom-8 flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-100"
-            style={{ opacity: activeIdx === 0 && cardProgress < 0.2 ? 0.4 : 0 }}
+            className="absolute flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-100"
+            style={{
+              bottom:  "clamp(1.5rem, 4vh, 2rem)",
+              opacity: activeIdx === 0 && cardProgress < 0.2 ? 0.4 : 0,
+            }}
           >
-            <p className="lc-dm text-[10px] tracking-[0.22em] uppercase" style={{ color: "rgba(0,0,0,0.35)" }}>
+            <p
+              className="lc-dm uppercase"
+              style={{
+                fontSize:      "clamp(0.55rem, 1.5vw, 0.625rem)",
+                letterSpacing: "0.22em",
+                color:         "rgba(0,0,0,0.35)",
+              }}
+            >
               Scroll
             </p>
             <div className="w-px h-8" style={{ background: "rgba(0,0,0,0.25)" }} />
           </div>
-
         </div>
       </div>
     </>
