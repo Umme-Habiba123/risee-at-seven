@@ -66,7 +66,6 @@ export default function MarqueeTicker() {
           0%   { transform: translateX(0); }
           100% { transform: translateX(calc(-100% / 3)); }
         }
-        .marquee-font { font-size: 20px}
         .marquee-mask-left  { mask-image: linear-gradient(to right,  black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to right,  black 0%, transparent 100%); }
         .marquee-mask-right { mask-image: linear-gradient(to left, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%); }
       `}</style>
@@ -90,11 +89,11 @@ export default function MarqueeTicker() {
               return (
                 <span
                   key={i}
-                  className="marquee-font whitespace-nowrap font-black text-neutral-900 leading-none select-none"
+                  className="marquee-font whitespace-nowrap font-semibold text-neutral-900 leading-none select-none"
                   style={{
                     fontSize: "clamp(2.4rem, 5.5vw, 6.8rem)",
-                    letterSpacing: "-0.03em",
-                    padding: "0 clamp(16px, 2.8vw, 44px)",
+                    letterSpacing: "-0.06em",
+                    padding: "0 clamp(8px, 2.1vw, 40px)",
                   }}
                 >
                   {item.content}
