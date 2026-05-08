@@ -206,8 +206,10 @@ export default function LegacyCards() {
       >
         {/* sticky viewport */}
         <div
-          className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden"
-          style={{ background: "#eae7e2" }}
+          className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-visible"
+          style={{ background: "#eae7e2",
+            
+           }}
         >
 
           {/* eyebrow */}
@@ -230,7 +232,7 @@ export default function LegacyCards() {
             <div
               className="absolute inset-0"
               style={{
-                borderRadius: "clamp(32px, 6vw, 56px)",
+                borderRadius: "clamp(25px, 4vw, 50px)",
                 background:   next.backBg,
                 transform:    `translateY(${backY}px) rotate(${backRot}deg) scale(${backScale})`,
                 opacity:      backOp,
@@ -243,7 +245,7 @@ export default function LegacyCards() {
             <div
               className="absolute inset-0 flex flex-col items-center text-center overflow-hidden"
               style={{
-                borderRadius: "clamp(32px, 6vw, 56px)",
+                borderRadius: "clamp(25px, 4vw, 20px)",
                 background:   cur.cardBg,
                 transform:    `translateY(${curY}px) rotate(${curRot}deg) scale(${curScale})`,
                 opacity:      Math.max(0, curOp),
