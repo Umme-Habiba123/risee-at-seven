@@ -100,7 +100,7 @@ function BlogCard({ post, index }) {
         onMouseMove={handleMouseMove}
       >
         {/* Image container */}
-        <div className="relative overflow-hidden rounded-2xl aspect-[4/3] w-full">
+        <div className="relative overflow-hidden rounded-2xl aspect-[15/17] w-full">
           {/* category badge */}
           {post.category && (
             <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm text-neutral-800 text-xs font-semibold px-3 py-1 rounded-full">
@@ -126,40 +126,31 @@ function BlogCard({ post, index }) {
             className="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
             style={{ opacity: hovered ? 1 : 0 }}
           >
-            <div
-              className="flex items-center justify-center rounded-full"
-              style={{
-                width: 72,
-                height: 72,
-                background: "#7ee8c8",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
-                transform: hovered ? "scale(1)" : "scale(0.7)",
-                transition: "transform 0.35s cubic-bezier(0.34,1.56,0.64,1)",
-              }}
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" strokeWidth="2.5" className="w-7 h-7">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10"/>
-              </svg>
-            </div>
           </div>
         </div>
 
         {/* Meta row */}
-        <div className="flex items-center gap-3">
-          <img
+        <div className="flex items-center gap-3 ">
+         <div className="bg-white flex px-2 p-1 rounded-3xl ">
+             <img
             src={post.authorAvatar}
             alt={post.author}
-            className="w-6 h-6 rounded-full object-cover"
+            className="w-4 h-4 items-center  rounded-full object-cover"
           />
-          <span className="text-sm text-neutral-500 font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          <span className="text-sm text-neutral-500 bg-white px-2 rounded-2xl font-semibold" style={{ fontFamily: "'DM Sans', sans-serif",
+                 letterSpacing: "-0.06em"
+           }}>
             {post.author}
           </span>
-          <div className="flex items-center gap-1 text-neutral-400">
+         </div>
+          <div className="flex bg-white  px-2 rounded-3xl items-center gap-1 text-neutral-400">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-3.5 h-3.5">
               <circle cx="12" cy="12" r="10"/>
               <polyline points="12 6 12 12 16 14"/>
             </svg>
-            <span className="text-sm" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            <span className="text-sm text-gray-500 font-semibold" style={{ fontFamily: "'DM Sans', sans-serif",
+                letterSpacing: "-0.05em"
+             }}>
               {post.readTime}
             </span>
           </div>
@@ -191,18 +182,18 @@ export default function WhatsNew() {
 
       <section
         className="w-full bg-[#eae7e2] px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20 pt-12 md:pt-16 lg:pt-20 pb-16 md:pb-20 lg:pb-28"
-        style={{ fontFamily: "'DM Sans', sans-serif" }}
+        style={{  }}
       >
 
         {/* ── HEADER ── */}
-        <div className="flex items-center justify-between gap-6 pb-8 md:pb-10 border-b border-black/10 mb-10 md:mb-14">
+        <div className="flex items-center justify-between gap-6 pb-8 md:pb-10 border-b border-black/10 mb-10 md:mb-6">
 
           {/* Title */}
           <h2
-            className="flex items-center flex-wrap gap-3 font-black text-neutral-900 leading-none"
+            className="flex items-center flex-wrap gap-3 font-semibold text-neutral-900 leading-none"
             style={{
-              fontFamily: "'Syne', sans-serif",
-              fontSize: "clamp(2.4rem, 6vw, 5.2rem)",
+            
+              fontSize: "clamp(3.6rem, 6vw, 6.9rem)",
               letterSpacing: "-0.04em",
             }}
           >
@@ -211,12 +202,12 @@ export default function WhatsNew() {
             <span
               className="inline-block overflow-hidden flex-shrink-0"
               style={{
-                width:  "clamp(44px, 6vw, 76px)",
-                height: "clamp(44px, 6vw, 76px)",
+                width:  "clamp(59px, 6vw, 99px)",
+                height: "clamp(54px, 6vw, 96px)",
                 borderRadius: "clamp(10px, 1.5vw, 16px)",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.14)",
                 position: "relative",
-                top: 2,
+                top: 3,
               }}
             >
               <img
@@ -232,7 +223,7 @@ export default function WhatsNew() {
           <a
             href="#"
             className="btn btn-sm sm:btn-md rounded-full bg-white border border-black/10 text-neutral-900 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 font-semibold shadow-sm flex-shrink-0 gap-1.5 transition-all duration-200 normal-case"
-            style={{ fontFamily: "'DM Sans', sans-serif" }}
+            style={{  }}
           >
             <span className="hidden sm:inline">Explore More Thoughts</span>
             <span className="sm:hidden">Explore</span>
@@ -243,7 +234,7 @@ export default function WhatsNew() {
         </div>
 
         {/* ── GRID ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 lg:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-6 lg:gap-4">
           {displayedPosts.map((post, i) => (
             <BlogCard key={post.id} post={post} index={i} />
           ))}
