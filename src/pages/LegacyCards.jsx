@@ -211,8 +211,9 @@ export default function LegacyCards() {
         >
 
           {/* eyebrow */}
-          <p className="lc-dm text-xs sm:text-sm tracking-[0.2em] uppercase font-medium mb-7 sm:mb-10 select-none"
-            style={{ color: "rgba(0,0,0,0.38)" }}>
+          <p className="lc-dm text-xs sm:text-sm lg:text-xl text-black tracking-[0.2em] font-medium mb-7 sm:mb-10 select-none"
+          style={{ letterSpacing: "-0.06em",}}
+          >
             Legacy In The Making
           </p>
 
@@ -220,8 +221,8 @@ export default function LegacyCards() {
           <div
             className="relative flex items-center justify-center"
             style={{
-              width:  "min(600px, 92vw)",
-              height: "min(680px, 86vh)",
+              width:  "min(550px, 92vw)",
+              height: "min(550px, 86vh)",
             }}
           >
 
@@ -286,7 +287,7 @@ export default function LegacyCards() {
 
               {/* heading */}
               <h2
-                className="lc-syne font-black leading-[0.92] mb-4 sm:mb-5 whitespace-pre-line"
+                className="lc-syne font-semibold leading-[0.92] mb-4 sm:mb-5 whitespace-pre-line"
                 style={{
                   fontSize:      "clamp(3rem, 8.5vw, 5rem)",
                   letterSpacing: "-0.045em",
@@ -313,7 +314,7 @@ export default function LegacyCards() {
                 {CARDS.map((_, i) => (
                   <div
                     key={i}
-                    className="rounded-full transition-all duration-500 ease-out"
+                    className="rounded-full transition-all duration-50 ease-out"
                     style={{
                       width:      i === activeIdx ? 24 : 7,
                       height:     7,
@@ -331,7 +332,7 @@ export default function LegacyCards() {
 
           {/* scroll hint */}
           <div
-            className="absolute bottom-8 flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-700"
+            className="absolute bottom-8 flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-100"
             style={{ opacity: activeIdx === 0 && cardProgress < 0.2 ? 0.4 : 0 }}
           >
             <p className="lc-dm text-[10px] tracking-[0.22em] uppercase" style={{ color: "rgba(0,0,0,0.35)" }}>
