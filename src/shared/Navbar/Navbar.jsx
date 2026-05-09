@@ -389,18 +389,6 @@ export default function RiseAtSeven() {
             >
               #1Most Recommended <br></br> Content Marketing Agency
             </p>
-            {/* 
-          <div className="flex flex-wrap justify-center gap-2 mb-8 animate-fadeUp" style={{ animationDelay: "0.25s" }}>
-            {["🏆 Global Search Awards", "▲ The Drum", "🌐 UK Social Media Awards", "★ Content Awards"].map((b) => (
-              <span key={b} className="px-3 py-1 text-[0.65rem] font-semibold tracking-widest uppercase rounded border border-white/30 bg-white/10 backdrop-blur-sm text-white">
-             
-                {b}
-              </span>
-            ))}
-          </div> */}
-
-
-
 
             <div
               className="flex flex-wrap justify-center items-center gap-6 mb-10 animate-fadeUp"
@@ -435,12 +423,13 @@ export default function RiseAtSeven() {
             </div>
 
             <h1
-              className="leading-none mb-4 text-white animate-fadeUp lowercase"
+              className="leading-none mb-4 text-white animate-fadeUp"
               style={{
-                fontFamily: "'Bebas Neue', sans-serif",
+                fontFamily: " sans-serif",
                 fontSize: "clamp(2.9rem, 9vw, 8.8rem)",
-                letterSpacing: "0.03em",
+             
                 animationDelay: "0.4s",
+                letterSpacing: "-0.06em",
               }}
             >
               We Create
