@@ -76,7 +76,7 @@ export default function MarqueeSection() {
       `}</style>
 
       {/* Tall scroll container so sticky panel has room */}
-      <div ref={sectionRef} style={{ height: "500vh", position: "relative" }}>
+      <div className="hidden lg:block" ref={sectionRef} style={{ height: "500vh", position: "relative" }}>
         <div
           style={{
             position: "sticky",
