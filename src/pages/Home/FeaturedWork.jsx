@@ -380,5 +380,6 @@ export default function FeaturedWork() {
         </div>
       </div>
     </>
+    
   );
 }
