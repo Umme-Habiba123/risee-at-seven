@@ -214,9 +214,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* ── NAV LINKS ── */}
-          {/* Mobile: 2-col grid for first two nav groups, then locations full row */}
-          {/* Desktop: 3 cols side by side */}
 
           {/* Mobile layout */}
           <div className="block sm:hidden">

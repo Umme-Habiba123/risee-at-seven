@@ -395,13 +395,13 @@ export default function RiseAtSeven() {
               style={{ animationDelay: "0.25s" }}
             >
 
-              <img className="-mr-5" src="/src/assets/6.png
+              <img className="-mr-5" src="/public/6.png
               " alt="" />
               {[
                 // "/src/assets/6.png",
-                "/src/assets/2.webp",
-                "/src/assets/3.webp",
-                "/src/assets/UKSocial-Media-Awards-White.webp",
+                "/public/2.webp",
+                "/public/3.webp",
+                "/public/UKSocial-Media-Awards-White.webp",
                 // "/src/assets/7.png", 
               ].map((logo, i) => (
                 <div
@@ -418,7 +418,7 @@ export default function RiseAtSeven() {
                 </div>
               ))}
 
-                               <img className="-ml-5" src="/src/assets/7.png
+                               <img className="-ml-5" src="/public/7.png
               " alt="" />
             </div>
 
