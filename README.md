@@ -1,4 +1,4 @@
-# Rise at Seven — Agency Website
+# Rise at Seven — Job Task(DeveloperLook)
 
 A pixel-perfect, fully responsive agency website built with **React** and **Tailwind CSS**, inspired by the Rise at Seven brand. Features scroll-triggered animations, interactive service rows, and a smooth featured work experience.
 
@@ -19,7 +19,7 @@ A pixel-perfect, fully responsive agency website built with **React** and **Tail
 >
 > To add: take a screenshot → save as `preview.png` in the root folder → the image will show below automatically.
 
-![Homepage Preview](./preview.png)
+![Homepage Preview](https://i.ibb.co.com/Wvk26HyY/Screenshot-2026-05-11-115422.png)
 
 ---
 
@@ -39,6 +39,7 @@ A pixel-perfect, fully responsive agency website built with **React** and **Tail
 
 - [React](https://react.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [DaisyUi](https://daisyui.com/)
 - [Netlify](https://netlify.com/) — Deployment
 
 ---
