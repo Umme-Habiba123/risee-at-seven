@@ -395,8 +395,7 @@ export default function RiseAtSeven() {
               style={{ animationDelay: "0.25s" }}
             >
 
-              <img className="-mr-5" src="/public/6.png
-              " alt="" />
+              <img className="-mr-5" src="https://i.ibb.co.com/MDT1MKLG/6.png " alt="" />
               {[
                 // "/src/assets/6.png",
                 "https://i.ibb.co.com/PG19HLDh/2.webp",
@@ -418,8 +417,7 @@ export default function RiseAtSeven() {
                 </div>
               ))}
 
-                               <img className="-ml-5" src="https://i.ibb.co.com/LDd3dMjF/7.png
-              " alt="" />
+                               <img className="-ml-5" src="https://i.ibb.co.com/LDd3dMjF/7.png" alt="" />
             </div>
 
             <h1
