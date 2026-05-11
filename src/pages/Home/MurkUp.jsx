@@ -231,14 +231,14 @@ export default function MurkUp() {
 
         {/* ── MAIN CONTENT ── */}
         <div className="mobile-main-content w-full mx-auto px-6 md:px-10 lg:px-10 py-16 md:py-24">
-          <div className="flex flex-col md:flex-row lg:flex-row justify-between items-start gap-12 lg:gap-12">
+          <div className="flex flex-col md:flex-row lg:flex-row justify-between items-center gap-12 lg:gap-12">
 
             {/* Left: descriptor — hidden on mobile, nudged up on desktop */}
             <div
               className={`mobile-left-col desktop-left-col reveal reveal-d2 ${inView ? "visible" : ""} lg:w-[38%] flex justify-start shrink-0`}
             >
               <p
-                className="text-base md:text-lg lg:text-2xl leading-snug font-semibold text-gray-900"
+                className="text-base md:text-lg lg:text-2xl  leading-snug font-semibold text-gray-900"
                 style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: "-0.095em" }}
               >
                 A global team of search-first content marketers <br /> engineering semantic relevancy & category <br /> signals for both the internet and people
@@ -281,9 +281,11 @@ export default function MurkUp() {
               </h2>
 
               {/* Mobile-only subtext — hidden on md+ (shown via left col on desktop) */}
-              <p className="mobile-subtext" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+             <div className="">
+               <p className="mobile-subtext" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 A global team of search-first content marketers engineering semantic relevancy &amp; category signals for both the internet and people
               </p>
+             </div>
 
               {/* CTA row */}
               <div className={`mobile-btn-row reveal reveal-d4 ${inView ? "visible" : ""} flex flex-wrap justify-start lg:ml-72 gap-3`}>

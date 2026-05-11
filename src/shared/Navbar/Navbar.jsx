@@ -254,9 +254,9 @@ export default function RiseAtSeven() {
             <div
               className="shrink-0 cursor-pointer sansita-font select-none text-white"
               style={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                letterSpacing: "0.04em",
-                fontSize: "1.45rem",
+                fontFamily: "sans-serif",
+                letterSpacing: "-0.04em",
+                fontSize: "1.30rem",
               }}
             >
               Rise at Seven
