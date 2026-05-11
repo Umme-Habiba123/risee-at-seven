@@ -399,9 +399,9 @@ export default function RiseAtSeven() {
               " alt="" />
               {[
                 // "/src/assets/6.png",
-                "/public/2.webp",
-                "/public/3.webp",
-                "/public/UKSocial-Media-Awards-White.webp",
+                "https://i.ibb.co.com/PG19HLDh/2.webp",
+                "https://i.ibb.co.com/xNBfk1K/3.webp",
+                "https://i.ibb.co.com/G40qfZC1/UKSocial-Media-Awards-White.webp",
                 // "/src/assets/7.png", 
               ].map((logo, i) => (
                 <div
@@ -418,7 +418,7 @@ export default function RiseAtSeven() {
                 </div>
               ))}
 
-                               <img className="-ml-5" src="/public/7.png
+                               <img className="-ml-5" src="https://i.ibb.co.com/LDd3dMjF/7.png
               " alt="" />
             </div>
 
