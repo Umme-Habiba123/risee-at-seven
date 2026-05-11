@@ -1,121 +1,136 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-const FULL_TEXT = "Ready to Rise at Seven";
-const words = FULL_TEXT.split(" ");
-
-export default function MarqueeSection() {
-  const sectionRef = useRef(null);
-  const [progress, setProgress] = useState(0);
+export default function ScrollRevealText() {
+  const wrapRef = useRef(null);
+  const trackRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const section = sectionRef.current;
-      if (!section) return;
-      const rect = section.getBoundingClientRect();
-      const sectionH = section.offsetHeight;
-      const windowH = window.innerHeight;
-      const scrolled = -rect.top;
-      const total = sectionH - windowH;
-      const p = Math.min(Math.max(scrolled / total, 0), 1);
-      setProgress(p);
+    let ticking = false;
+
+    const onScroll = () => {
+      if (!wrapRef.current || !trackRef.current) return;
+
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const wrapper = wrapRef.current;
+          const track = trackRef.current;
+
+          const rect = wrapper.getBoundingClientRect();
+          const wrapperHeight = wrapper.offsetHeight;
+          const viewportHeight = window.innerHeight;
+          const viewportWidth = window.innerWidth;
+
+          // total scrollable distance
+          const maxScroll = wrapperHeight - viewportHeight;
+
+          // current scroll progress
+          const currentScroll = Math.max(0, -rect.top);
+
+          const progress = Math.min(
+            Math.max(currentScroll / maxScroll, 0),
+            1
+          );
+
+          // text width
+          const trackWidth = track.scrollWidth;
+
+          // move exactly enough so full text exits
+          const totalMove = trackWidth + viewportWidth;
+
+          // smooth horizontal movement
+          const x =
+            viewportWidth - progress * totalMove;
+
+          track.style.transform = `translate3d(${x}px,0,0)`;
+
+          ticking = false;
+        });
+
+        ticking = true;
+      }
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
-  const totalLetters = FULL_TEXT.replace(/ /g, "").length;
-  // How many letters revealed so far (right to left order)
-  const visibleCount = Math.floor(progress * totalLetters);
-
-  let globalIdx = 0;
-
-  const rendered = words.map((word, wi) => {
-    const letters = word.split("");
-    const renderedWord = letters.map((char) => {
-      const myIdx = globalIdx;
-      globalIdx++;
-      // revealOrder: 0 = rightmost letter (reveals first), totalLetters-1 = leftmost (reveals last)
-      const revealOrder = totalLetters - 1 - myIdx;
-      const isVisible = visibleCount > revealOrder;
-
-      return (
-        <span
-          key={myIdx}
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible
-              ? "translateY(0px) translateX(0px)"
-              : "translateY(-90px) translateX(30px)",
-            display: "inline-block",
-            transition:
-              "opacity 0.4s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1)",
-            transitionDelay: isVisible ? `${revealOrder * 15}ms` : "0ms",
-          }}
-        >
-          {char}
-        </span>
-      );
+    window.addEventListener("scroll", onScroll, {
+      passive: true,
     });
 
-    return (
-      <span
-        key={wi}
-        style={{ display: "inline-block", marginRight: "0.25em" }}
-      >
-        {renderedWord}
-      </span>
-    );
-  });
+    onScroll();
+
+    return () =>
+      window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <>
       <style>{`
-        html { scroll-behavior: smooth; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap');
+
+        *{
+          box-sizing:border-box;
+        }
+
+        .srt-outer{
+          height:1100vh;
+          position:relative;
+          background:#ECEAE5;
+        }
+
+        .srt-sticky{
+          position:sticky;
+          top:0;
+          height:100vh;
+
+          overflow:hidden;
+
+          display:flex;
+          align-items:center;
+
+          background:#ECEAE5;
+        }
+
+        .srt-track{
+          white-space:nowrap;
+
+          line-height:0.9;
+
+          padding-left:4vw;
+
+          will-change:transform;
+
+          transform:translate3d(100vw,0,0);
+
+          backface-visibility:hidden;
+
+          perspective:1000px;
+        }
+
+        .srt-text{
+          font-family:'DM Sans',sans-serif;
+
+          font-weight:600;
+
+          font-size:clamp(5.1rem,15.9vw,18rem);
+
+          letter-spacing:-0.03em;
+
+          color:#0a0a0a;
+
+          display:inline-block;
+        }
+
+        @media (max-width:1023px){
+          .srt-outer{
+            display:none !important;
+          }
+        }
       `}</style>
 
-      {/* Tall scroll container so sticky panel has room */}
-      <div className="hidden lg:block" ref={sectionRef} style={{ height: "500vh", position: "relative" }}>
-        <div
-          style={{
-            position: "sticky",
-            top: 0,
-            height: "100vh",
-            width: "100%",
-            background: "#EDECE8",
-            display: "flex",
-            alignItems: "center",
-            overflow: "hidden",
-          }}
-        >
-          {/* Left & right edge fades */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              pointerEvents: "none",
-              background:
-                "linear-gradient(to right, #EDECE8 0%, transparent 5%, transparent 95%, #EDECE8 100%)",
-              zIndex: 2,
-            }}
-          />
-
-          {/* Text */}
-          <div style={{ width: "100%", padding: "0 5vw" }}>
-            <p
-              style={{
-                fontFamily: "'Helvetica Neue', 'Arial', sans-serif",
-                fontWeight: 800,
-                fontSize: "clamp(2.2rem, 8vw, 9rem)",
-                color: "#0a0a0a",
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
-                whiteSpace: "nowrap",
-              }}
-            >
-              {rendered}
-            </p>
+      <div ref={wrapRef} className="srt-outer">
+        <div className="srt-sticky">
+          <div ref={trackRef} className="srt-track">
+            <span className="srt-text">
+              Ready to Rise at Seven?
+            </span>
           </div>
         </div>
       </div>
