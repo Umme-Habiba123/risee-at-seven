@@ -15,9 +15,6 @@ A pixel-perfect, fully responsive agency website built with **React** and **Tail
 
 ## 📸 Preview
 
-> _Add a screenshot of your homepage here_
->
-> To add: take a screenshot → save as `preview.png` in the root folder → the image will show below automatically.
 
 ![Homepage Preview](https://i.ibb.co.com/Wvk26HyY/Screenshot-2026-05-11-115422.png)
 
