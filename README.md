@@ -1,16 +1,87 @@
-# React + Vite
+# Rise at Seven — Agency Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A pixel-perfect, fully responsive agency website built with **React** and **Tailwind CSS**, inspired by the Rise at Seven brand. Features scroll-triggered animations, interactive service rows, and a smooth featured work experience.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🔗 Links
 
-## React Compiler
+| | |
+|---|---|
+| 🌐 **Live Site** | [rise-at-seven-23b8b.netlify.app](https://rise-at-seven-23b8b.netlify.app/) |
+| 💻 **GitHub** | [github.com/Umme-Habiba123](https://github.com/Umme-Habiba123) |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 📸 Preview
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+> _Add a screenshot of your homepage here_
+>
+> To add: take a screenshot → save as `preview.png` in the root folder → the image will show below automatically.
+
+![Homepage Preview](./preview.png)
+
+---
+
+## ✨ Features
+
+- **Hero Section** — Scroll-triggered "Ready to Rise at Seven?" text reveal animation
+- **Logo Ticker** — Infinite marquee with client logos (Kroger, HubSpot, Xbox, SIXT, Revolution Beauty)
+- **Our Services** — Hover pill animation on desktop, thumbnail list on mobile
+- **Featured Work** — Sticky scroll with crossfade image transitions, 50/50 split layout
+- **What's New** — Horizontal scroll carousel on mobile, 3-column grid on desktop
+- **Footer** — Auto-fit brand name, dark theme, social icons, newsletter input
+- **Fully Responsive** — Mobile, tablet, and desktop layouts for every section
+
+---
+
+## 🛠️ Tech Stack
+
+- [React](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Netlify](https://netlify.com/) — Deployment
+
+---
+
+## 🚀 Getting Started
+
+```bash
+# Clone the repo
+git clone https://github.com/Umme-Habiba123/rise-at-seven.git
+
+# Navigate into the project
+cd rise-at-seven
+
+# Install dependencies
+npm install
+
+# Start the dev server
+npm run dev
+```
+
+Then open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── components/
+│   ├── HeroSection.jsx
+│   ├── MurkUp.jsx           # Logo ticker + main headline
+│   ├── OurServices.jsx
+│   ├── FeaturedWork.jsx
+│   ├── WhatsNew.jsx
+│   ├── ScrollRevealText.jsx
+│   └── Footer.jsx
+├── App.jsx
+└── main.jsx
+```
+
+---
+
+## 📄 License
+
+This project is for portfolio/demo purposes only.  
+© 2025 Umme Habiba. All rights reserved.
