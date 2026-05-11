@@ -1,410 +1,294 @@
-import { useRef, useState, useEffect, useLayoutEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef, useState, useEffect, useCallback } from "react";
 
-gsap.registerPlugin(ScrollTrigger);
-
-/* ═══════════════════════════ DATA ═══════════════════════════ */
 const projects = [
-  {
-    id: 1,
-    client: "Sixt",
-    years: "[2020-2025]",
-    tagline: "Scaling premium car rental reach across Europe",
-    keyword: "Car Rental",
-    accent: "#fbbf24",
-    cardBg: "rgba(254,240,138,0.92)",
-    image: "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?w=900&q=85",
-  },
-  {
-    id: 2,
-    client: "Dojo – B2B",
-    years: "[2021-2025]",
-    tagline: "A full service SEO success story — 170%+ increase",
-    keyword: "B2B Payments",
-    accent: "#a78bfa",
-    cardBg: "rgba(196,181,253,0.92)",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=85",
-  },
-  {
-    id: 3,
-    client: "Magnet Trade – B2B",
-    years: "[2023-2024]",
-    tagline: "Owning the trade kitchen search landscape",
-    keyword: "Trade Kitchens",
-    accent: "#34d399",
-    cardBg: "rgba(110,231,183,0.92)",
-    image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=85",
-  },
-  {
-    id: 4,
-    client: "Leading E-Sim Brand",
-    years: "[2023-2025]",
-    tagline: "Dominating global eSIM search in 40+ countries",
-    keyword: "eSIM Global",
-    accent: "#38bdf8",
-    cardBg: "rgba(125,211,252,0.92)",
-    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=900&q=85",
-  },
-  {
-    id: 5,
-    client: "JD Sports",
-    years: "[2025]",
-    tagline: "Owning footwear and apparel search at scale",
-    keyword: "Sportswear",
-    accent: "#f472b6",
-    cardBg: "rgba(251,207,232,0.92)",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=85",
-  },
-  {
-    id: 6,
-    client: "Parkdean Resorts",
-    years: "[2019-2025]",
-    tagline: "Social search and multi channel content to #1",
-    keyword: "UK Holidays",
-    accent: "#86efac",
-    cardBg: "rgba(187,247,208,0.92)",
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=85",
-  },
-  {
-    id: 7,
-    client: "Revolution Beauty",
-    years: "[2022-2025]",
-    tagline: "Building the UK's leading beauty dupe brand",
-    keyword: "Beauty Dupes",
-    accent: "#fda4af",
-    cardBg: "rgba(254,205,211,0.92)",
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=900&q=85",
-  },
-  {
-    id: 8,
-    client: "Lloyds Pharmacy",
-    years: "[2022-23]",
-    tagline: "Driving category leadership for STI tests",
-    keyword: "STI Tests",
-    accent: "#5eead4",
-    cardBg: "rgba(153,246,228,0.92)",
-    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=900&q=85",
-  },
-  {
-    id: 9,
-    client: "PrettyLittleThing",
-    years: "[2021-2023]",
-    tagline: 'Driving discovery for everything "outfits" for PLT',
-    keyword: "Outfits",
-    accent: "#fb923c",
-    cardBg: "rgba(254,215,170,0.92)",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85",
-  },
-  {
-    id: 10,
-    client: "Pooky",
-    years: "[2025]",
-    tagline: "Social search and multi channel content to #1",
-    keyword: "Rechargeable Lights",
-    accent: "#e879f9",
-    cardBg: "rgba(240,171,252,0.92)",
-    image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=900&q=85",
-  },
+  { id:1, client:"Sixt", years:"[2020–2025]", tagline:"Scaling premium car rental reach across Europe", keyword:"Car Rental", accent:"#fbbf24", cardBg:"rgba(254,240,138,0.93)", image:"https://images.unsplash.com/photo-1485291571150-772bcfc10da5?w=900&q=85" },
+  { id:2, client:"Dojo – B2B", years:"[2021–2025]", tagline:"A full service SEO success story — 170%+ increase", keyword:"B2B Payments", accent:"#a78bfa", cardBg:"rgba(196,181,253,0.93)", image:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=85" },
+  { id:3, client:"Magnet Trade", years:"[2023–2024]", tagline:"Owning the trade kitchen search landscape", keyword:"Trade Kitchens", accent:"#34d399", cardBg:"rgba(110,231,183,0.93)", image:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=85" },
+  { id:4, client:"Leading E-Sim", years:"[2023–2025]", tagline:"Dominating global eSIM search in 40+ countries", keyword:"eSIM Global", accent:"#38bdf8", cardBg:"rgba(125,211,252,0.93)", image:"https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=900&q=85" },
+  { id:5, client:"JD Sports", years:"[2025]", tagline:"Owning footwear and apparel search at scale", keyword:"Sportswear", accent:"#f472b6", cardBg:"rgba(251,207,232,0.93)", image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=85" },
+  { id:6, client:"Parkdean Resorts", years:"[2019–2025]", tagline:"Social search and multi-channel content to #1", keyword:"UK Holidays", accent:"#86efac", cardBg:"rgba(187,247,208,0.93)", image:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=85" },
+  { id:7, client:"Revolution Beauty", years:"[2022–2025]", tagline:"Building the UK's leading beauty dupe brand", keyword:"Beauty Dupes", accent:"#fda4af", cardBg:"rgba(254,205,211,0.93)", image:"https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=900&q=85" },
+  { id:8, client:"Lloyds Pharmacy", years:"[2022–2023]", tagline:"Driving category leadership for STI tests", keyword:"Healthcare", accent:"#5eead4", cardBg:"rgba(153,246,228,0.93)", image:"https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=900&q=85" },
 ];
 
-/* ═══════════════════════════ IMAGE CARD ═══════════════════════════ */
-function ImageCard({ project, index, mounted }) {
+/* ── Card used everywhere ── */
+function Card({ project, isMobile }) {
   const [hovered, setHovered] = useState(false);
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
-        delay: 0.1 + index * 0.08,
-      }}
-      className="relative w-full overflow-hidden rounded-2xl cursor-pointer"
-      style={{ aspectRatio: "16/9" }}
+    <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      style={{ position:"relative", width:"100%", height:"100%", borderRadius:18, overflow:"hidden", cursor:"pointer" }}
     >
-      {/* image */}
-      <motion.img
-        src={project.image}
-        alt={project.client}
-        className="w-full h-full object-cover"
-        animate={{ scale: hovered ? 1.07 : 1 }}
-        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-        loading="lazy"
+      <img
+        src={project.image} alt={project.client}
+        style={{ width:"100%", height:"100%", objectFit:"cover", display:"block",
+          transform: hovered ? "scale(1.07)" : "scale(1)",
+          transition:"transform 0.65s cubic-bezier(0.22,1,0.36,1)" }}
       />
 
-      {/* hover colour overlay */}
-      <AnimatePresence>
-        {hovered && (
-          <motion.div
-            key="overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="absolute inset-0 flex flex-col justify-between p-5 md:p-6"
-            style={{ backgroundColor: project.cardBg }}
-          >
-            {/* tagline */}
-            <p
-              style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontSize: "clamp(1.25rem, 2.4vw, 2rem)",
-                fontWeight: 900,
-                color: "#111",
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                maxWidth: "80%",
-              }}
-            >
-              {project.tagline}
-            </p>
+      {/* mobile always-visible gradient */}
+      {isMobile && (
+        <div style={{
+          position:"absolute", inset:0,
+          background:"linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%)",
+          display:"flex", flexDirection:"column", justifyContent:"flex-end",
+          padding:"0.85rem 1rem",
+        }}>
+          <span style={{ fontSize:"0.65rem", color:"rgba(255,255,255,0.6)", fontWeight:500, marginBottom:3 }}>{project.years}</span>
+          <p style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize:"clamp(1.25rem,5vw,1.6rem)", color:"#fff", margin:0, lineHeight:1.05, letterSpacing:"-0.02em" }}>{project.client}</p>
+        </div>
+      )}
 
-            {/* arrow + keyword row */}
-            <div className="flex items-center justify-between">
-              <motion.div
-                className="w-12 h-12 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: project.accent }}
-                initial={{ scale: 0, rotate: -45 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 20 }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#111" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </motion.div>
-              <div className="flex items-center gap-1.5">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                  <circle cx="11" cy="11" r="8" stroke="#111" strokeWidth="2.2" />
-                  <path d="M21 21l-4.35-4.35" stroke="#111" strokeWidth="2.2" strokeLinecap="round" />
-                </svg>
-                <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "#111" }}>{project.keyword}</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="#111" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* keyword pill */}
+      <div style={{
+        position:"absolute", top:10, right:10,
+        display:"flex", alignItems:"center", gap:4,
+        background:"rgba(255,255,255,0.9)", borderRadius:999, padding:"3px 9px",
+        opacity: hovered ? 0 : 1, transition:"opacity 0.22s ease",
+      }}>
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="#111" strokeWidth="2.5"/><path d="M21 21l-4.35-4.35" stroke="#111" strokeWidth="2.5" strokeLinecap="round"/></svg>
+        <span style={{ fontSize:"0.65rem", fontWeight:600, color:"#111" }}>{project.keyword}</span>
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="#111" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </div>
 
-      {/* default keyword pill (only when not hovered) */}
-      <AnimatePresence>
-        {!hovered && (
-          <motion.div
-            key="pill"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full px-3 py-1.5"
-            style={{ backgroundColor: "rgba(0,0,0,0.55)", backdropFilter: "blur(8px)" }}
-          >
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-              <circle cx="11" cy="11" r="8" stroke="white" strokeWidth="2.2" />
-              <path d="M21 21l-4.35-4.35" stroke="white" strokeWidth="2.2" strokeLinecap="round" />
-            </svg>
-            <span style={{ fontSize: "0.7rem", color: "white", fontWeight: 500 }}>{project.keyword}</span>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+      {/* hover overlay */}
+      <div style={{
+        position:"absolute", inset:0, borderRadius:18,
+        backgroundColor: project.cardBg,
+        opacity: hovered ? 1 : 0,
+        transition:"opacity 0.32s ease",
+        display:"flex", flexDirection:"column", justifyContent:"space-between",
+        padding: isMobile ? "0.9rem" : "1.25rem",
+      }}>
+        <p style={{ fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900, fontSize: isMobile ? "1rem" : "clamp(1rem,1.6vw,1.7rem)", color:"#111", letterSpacing:"-0.02em", lineHeight:1.1, maxWidth:"85%", margin:0 }}>{project.tagline}</p>
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+          <div style={{ width:36, height:36, borderRadius:"50%", backgroundColor:project.accent, display:"flex", alignItems:"center", justifyContent:"center",
+            transform: hovered ? "scale(1) rotate(0deg)" : "scale(0) rotate(-45deg)",
+            transition:"transform 0.32s cubic-bezier(0.34,1.56,0.64,1)" }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H7M17 7V17" stroke="#111" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </div>
+          <span style={{ fontSize:"0.65rem", fontWeight:600, color:"#111", background:"rgba(0,0,0,0.1)", borderRadius:999, padding:"3px 8px" }}>{project.keyword}</span>
+        </div>
+      </div>
+    </div>
   );
 }
 
-/* ═══════════════════════════ MAIN ═══════════════════════════ */
-export default function FeaturedWork() {
-  const [activeIndex, setActive] = useState(0);
-  const [mounted, setMounted]    = useState(false);
+/* ═══════ DESKTOP ═══════
+   Right side: 1 column, 2 images stacked (top + bottom).
+   Each scroll step = 1 project. active = top card, active+1 = bottom card.
+   Left names highlight the TOP card's index.
+════════════════════════ */
+function Desktop({ active, setActive }) {
+  const sectionRef = useRef(null);
+  const locked = useRef(false);
+  const accum = useRef(0);
+  const [animKey, setAnimKey] = useState(0);
+  const [animDir, setAnimDir] = useState(1);
 
-  const sectionRef   = useRef(null);
-  const leftRef      = useRef(null);
-  const rightRef     = useRef(null);
-  const nameRefs     = useRef([]);
-  const imgRefs      = useRef([]);
-  const syncLock     = useRef(false);
-  const gsapCtx      = useRef(null);
+  const goTo = useCallback((next) => {
+    if (next < 0 || next >= projects.length || locked.current) return;
+    locked.current = true;
+    setAnimDir(next > active ? 1 : -1);
+    setActive(next);
+    setAnimKey(k => k + 1);
+    setTimeout(() => { locked.current = false; }, 560);
+  }, [active, setActive]);
 
-  /* mount flag */
   useEffect(() => {
-    const id = setTimeout(() => setMounted(true), 80);
-    return () => clearTimeout(id);
-  }, []);
-
-  /* GSAP scroll animations on left names */
-  useLayoutEffect(() => {
-    if (!mounted) return;
-
-    gsapCtx.current = gsap.context(() => {
-      nameRefs.current.forEach((el, i) => {
-        if (!el) return;
-
-        const nameEl  = el.querySelector(".name-text");
-        const yearEl  = el.querySelector(".year-text");
-
-        /* initial state */
-        gsap.set(el, { opacity: i === 0 ? 1 : 0.18 });
-        gsap.set(nameEl, { color: i === 0 ? "#ffffff" : "#6b7280" });
-
-        ScrollTrigger.create({
-          trigger: el,
-          scroller: leftRef.current,
-          start: "top 55%",
-          end: "bottom 45%",
-          onEnter: () => activate(i),
-          onEnterBack: () => activate(i),
-        });
-      });
-
-      function activate(i) {
-        /* dim all */
-        nameRefs.current.forEach((el, j) => {
-          if (!el) return;
-          const nm = el.querySelector(".name-text");
-          const yr = el.querySelector(".year-text");
-          gsap.to(el, { opacity: j === i ? 1 : j < i ? 0.1 : 0.22, duration: 0.55, ease: "power2.out" });
-          gsap.to(nm, { color: j === i ? "#ffffff" : "#6b7280", duration: 0.55, ease: "power2.out" });
-          gsap.to(yr, { opacity: j === i ? 1 : 0.4, duration: 0.55, ease: "power2.out" });
-        });
-
-        setActive(i);
-
-        /* sync right panel */
-        if (!syncLock.current && rightRef.current && imgRefs.current[i]) {
-          syncLock.current = true;
-          gsap.to(rightRef.current, {
-            scrollTop: imgRefs.current[i].offsetTop - 24,
-            duration: 0.75,
-            ease: "power3.inOut",
-            onComplete: () => { syncLock.current = false; },
-          });
-        }
+    const el = sectionRef.current;
+    if (!el) return;
+    const onWheel = (e) => {
+      const atStart = active === 0;
+      const atEnd = active === projects.length - 1;
+      if ((e.deltaY < 0 && atStart) || (e.deltaY > 0 && atEnd)) return;
+      e.preventDefault();
+      accum.current += e.deltaY;
+      if (Math.abs(accum.current) > 65) {
+        const d = accum.current > 0 ? 1 : -1;
+        accum.current = 0;
+        goTo(active + d);
       }
-    }, sectionRef);
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, [active, goTo]);
 
-    return () => gsapCtx.current?.revert();
-  }, [mounted]);
+  const topIdx    = active;
+  const bottomIdx = active + 1 < projects.length ? active + 1 : null;
+
+  return (
+    <div ref={sectionRef} style={{ display:"flex", height:"calc(100vh - 52px)", overflow:"hidden" }}>
+
+      {/* ── LEFT: all names ── */}
+      <div style={{
+        width:"46%", display:"flex", flexDirection:"column", justifyContent:"center",
+        padding:"1.5rem 1rem 1.5rem 2.5rem", gap:0, overflowY:"auto", scrollbarWidth:"none",
+      }}>
+        {projects.map((p, i) => {
+          const isActive = i === active;
+          const isPast   = i < active;
+          return (
+            <div key={p.id} onClick={() => goTo(i)}
+              style={{ display:"flex", alignItems:"baseline", gap:8, padding:"0.38rem 0", cursor:"pointer" }}>
+              <span style={{
+                fontFamily:"'Barlow Condensed',sans-serif", fontWeight:900,
+                letterSpacing:"-0.02em", lineHeight:1.02,
+                fontSize:"clamp(1.4rem,3.2vw,4rem)",
+                color: isActive ? "#fff" : "#6b7280",
+                opacity: isActive ? 1 : isPast ? 0.1 : 0.26,
+                transition:"color 0.5s ease, opacity 0.5s ease",
+                whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis",
+              }}>{p.client}</span>
+              <span style={{
+                fontFamily:"monospace", fontSize:"0.6rem",
+                color: isActive ? "#9ca3af" : "#374151",
+                opacity: isActive ? 1 : 0.3,
+                transition:"all 0.5s ease", whiteSpace:"nowrap", flexShrink:0,
+              }}>{p.years}</span>
+            </div>
+          );
+        })}
+        <div style={{ marginTop:"1.8rem" }}>
+          <button style={{
+            background:"#fff", border:"none", borderRadius:999, padding:"0.65rem 1.4rem",
+            fontFamily:"'Barlow',sans-serif", fontWeight:600, fontSize:"0.82rem", color:"#111",
+            cursor:"pointer", display:"flex", alignItems:"center", gap:6,
+          }}>
+            Explore Our Work
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#111" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* ── RIGHT: 1 col, 2 images stacked ── */}
+      <div style={{ width:"54%", padding:"1rem 1.5rem 1rem 0.5rem", overflow:"hidden" }}>
+        <div
+          key={`stack-${animKey}`}
+          style={{
+            height:"100%",
+            display:"flex",
+            flexDirection:"column",
+            gap:12,
+            animation:`stackIn${animDir > 0 ? "Down" : "Up"} 0.55s cubic-bezier(0.22,1,0.36,1) forwards`,
+          }}
+        >
+          {/* TOP image */}
+          <div style={{ flex:1, minHeight:0 }}>
+            <Card project={projects[topIdx]} />
+          </div>
+
+          {/* BOTTOM image */}
+          <div style={{ flex:1, minHeight:0 }}>
+            {bottomIdx !== null
+              ? <Card project={projects[bottomIdx]} />
+              : <Placeholder />
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Placeholder() {
+  return <div style={{ width:"100%", height:"100%", borderRadius:18, background:"rgba(255,255,255,0.04)" }} />;
+}
+
+/* ═══════ MOBILE / TABLET ═══════ */
+function Mobile() {
+  return (
+    <div style={{ padding:"0 1rem 5rem" }}>
+      <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
+        {projects.map(p => (
+          <div key={p.id} style={{ height:"58vw", maxHeight:290 }}>
+            <Card project={p} isMobile />
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop:"1.75rem" }}>
+        <button style={{
+          background:"#fff", border:"none", borderRadius:999,
+          padding:"0.9rem 1.5rem", width:"100%",
+          fontFamily:"'Barlow',sans-serif", fontWeight:600, fontSize:"0.95rem", color:"#111",
+          cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", gap:8,
+        }}>
+          Explore Our Work
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H7M17 7V17" stroke="#111" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════ ROOT ═══════ */
+export default function FeaturedWork() {
+  const [active, setActive] = useState(0);
+  const [isLarge, setIsLarge] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width:1024px)");
+    setIsLarge(mq.matches);
+    const h = e => setIsLarge(e.matches);
+    mq.addEventListener("change", h);
+    return () => mq.removeEventListener("change", h);
+  }, []);
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@500&display=swap');
-        .no-sb::-webkit-scrollbar { display: none; }
-        .no-sb { -ms-overflow-style: none; scrollbar-width: none; }
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;600&display=swap');
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+        ::-webkit-scrollbar{display:none;}
+
+        @keyframes stackInDown {
+          from{opacity:0;transform:translateY(52px);}
+          to{opacity:1;transform:translateY(0);}
+        }
+        @keyframes stackInUp {
+          from{opacity:0;transform:translateY(-52px);}
+          to{opacity:1;transform:translateY(0);}
+        }
+
+        .fw-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:background 0.4s,transform 0.4s;}
+        .fw-dot.on{background:#fff;transform:scale(1.55);}
       `}</style>
 
-      {/* whole section entrance */}
-      <motion.section
-        ref={sectionRef}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: mounted ? 1 : 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        style={{ backgroundColor: "#111111", fontFamily: "'Barlow', sans-serif", minHeight: "100vh" }}
-      >
+      <section style={{ backgroundColor:"#111", minHeight:"100vh", fontFamily:"'Barlow',sans-serif", color:"#fff", overflowX:"hidden" }}>
 
-        {/* ── label ── */}
-        <div className="sticky top-0 z-50 px-6 md:px-10 py-4" style={{ backgroundColor: "#111111" }}>
-          <motion.span
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : -8 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            style={{
-              fontFamily: "'Barlow Condensed', sans-serif",
-              fontSize: "0.8rem",
-              fontWeight: 700,
-              color: "#fff",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-            }}
-          >
+        {/* label bar */}
+        <div style={{
+          padding:"0.9rem 1.5rem 0.9rem 2.5rem",
+          position:"sticky", top:0, zIndex:50, backgroundColor:"#111",
+          display:"flex", alignItems:"center", justifyContent:"space-between",
+        }}>
+          <span style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:"0.72rem", fontWeight:700, color:"#fff", letterSpacing:"0.14em", textTransform:"uppercase" }}>
             Featured Work
-          </motion.span>
+          </span>
+          {isLarge && (
+            <span style={{ fontSize:"0.72rem", color:"#4b5563" }}>
+              {String(active+1).padStart(2,"0")} / {String(projects.length).padStart(2,"0")}
+            </span>
+          )}
         </div>
 
-        <div className="flex w-full" style={{ height: "calc(100vh - 52px)" }}>
+        {isLarge
+          ? <Desktop active={active} setActive={setActive} />
+          : <Mobile />
+        }
 
-          {/* ════ LEFT: scrollable names (GSAP controlled) ════ */}
-          <div
-            ref={leftRef}
-            className="no-sb w-full lg:w-1/2 overflow-y-auto"
-            style={{ paddingTop: "2rem", paddingBottom: "60vh", paddingLeft: "1.5rem", paddingRight: "1.5rem" }}
-          >
-            {projects.map((p, i) => (
-              <div
-                key={p.id}
-                ref={(el) => (nameRefs.current[i] = el)}
-                className="flex items-baseline gap-2 leading-none select-none cursor-default"
-                style={{ paddingTop: "0.9rem", paddingBottom: "0.9rem" }}
-              >
-                <span
-                  className="name-text"
-                  style={{
-                    fontFamily: "'Barlow Condensed', sans-serif",
-                    fontSize: "clamp(2rem, 5vw, 4.8rem)",
-                    fontWeight: 900,
-                    lineHeight: 1.05,
-                    letterSpacing: "-0.02em",
-                    color: "#6b7280",
-                    willChange: "color, opacity",
-                  }}
-                >
-                  {p.client}
-                </span>
-                <span
-                  className="year-text text-xs font-mono shrink-0"
-                  style={{ color: "#4b5563", whiteSpace: "nowrap" }}
-                >
-                  {p.years}
-                </span>
-              </div>
+        {/* right dot nav — desktop only */}
+        {isLarge && (
+          <div style={{ position:"fixed", right:"1.1rem", top:"50%", transform:"translateY(-50%)", display:"flex", flexDirection:"column", gap:7, zIndex:100 }}>
+            {projects.map((_,i) => (
+              <div key={i} className={`fw-dot ${i===active?"on":""}`} onClick={() => setActive(i)} />
             ))}
           </div>
-
-          {/* ════ RIGHT: sticky inner-scroll images (desktop) ════ */}
-          <div
-            className="hidden lg:block w-full lg:w-1/2"
-            style={{ overflow: "hidden", position: "relative" }}
-          >
-            <div
-              ref={rightRef}
-              className="no-sb h-full overflow-y-auto"
-              style={{ padding: "1.5rem 1.5rem 8rem 0.5rem" }}
-            >
-              <div className="flex flex-col gap-5">
-                {projects.map((p, i) => (
-                  <div key={p.id} ref={(el) => (imgRefs.current[i] = el)}>
-                    <ImageCard project={p} index={i} mounted={mounted} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* ════ MOBILE: swaps on active ════ */}
-        <div className="lg:hidden px-6 pb-20 mt-4">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <ImageCard project={projects[activeIndex]} index={0} mounted={mounted} />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-      </motion.section>
+        )}
+      </section>
     </>
   );
 }
