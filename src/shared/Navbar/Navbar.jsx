@@ -382,7 +382,7 @@ export default function RiseAtSeven() {
           <div className="absolute inset-0 z-0 bg-black/15" />
 
           {/* Hero content */}
-          <div className="relative z-10 flex flex-col justify-center items-center text-center px-5 pt-20 pb-32 min-h-[calc(100vh-88px)]">
+          <div className="relative z-10 flex flex-col justify-center items-center text-center px-5 pt-20 pb-30 min-h-[calc(100vh-88px)]">
             <p
               className="text-xs font-bold tracking-[0.18em] uppercase mb-3 text-white/90 animate-fadeUp"
               style={{ animationDelay: "0.1s" }}
@@ -391,7 +391,7 @@ export default function RiseAtSeven() {
             </p>
 
             <div
-              className="flex flex-wrap justify-center items-center gap-6 mb-10 animate-fadeUp"
+              className="flex flex-wrap justify-center items-center gap-4 mb-4 animate-fadeUp"
               style={{ animationDelay: "0.25s" }}
             >
 
@@ -423,10 +423,10 @@ export default function RiseAtSeven() {
             </div>
 
             <h1
-              className="leading-none mb-4 text-white animate-fadeUp"
+              className="leading-none mb-2 text-white animate-fadeUp"
               style={{
                 fontFamily: " sans-serif",
-                fontSize: "clamp(2.9rem, 9vw, 8.8rem)",
+                fontSize: "clamp(2.1rem, 7vw, 8.1rem)",
              
                 animationDelay: "0.4s",
                 letterSpacing: "-0.06em",
@@ -434,7 +434,7 @@ export default function RiseAtSeven() {
             >
               We Create
               <br />
-              <span className="inline-flex items-center gap-4 rounded-2xl ">
+              <span className="inline-flex items-center gap-2 rounded-2xl ">
                 Category
                 <span
                   className="inline-block w-20 h-20 md:w-28 md:h-28 rounded-2xl overflow-hidden align-middle shadow-2xl"
